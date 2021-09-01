@@ -5,25 +5,23 @@ const SearchBar = () => {
   const [tune, setTune] = useState();
   const [isLoading, setIsloading] = useState(false);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const url = "http://localhost:3001";
+    const url = "http://localhost:3001/api";
     const location = {
       artist,
     };
     setIsloading(true);
-    fetch(url, {
+    const res = await fetch(url, {
       method: "POST",
       headers: { "Content-type": "application/json" },
       body: JSON.stringify(location),
-    }).then((res) =>
-      res.json().then((data) => {
-        let song = data.map((item) => item.track);
-        setTune(song);
-        setIsloading(false);
-        setArtist(e.target.reset());
-      })
-    );
+    });
+    const data = await res.json();
+    let song = data.map((item) => item.track);
+    setTune(song);
+    setIsloading(false);
+    setArtist(e.target.reset());
   };
 
   return (
