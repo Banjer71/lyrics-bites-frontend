@@ -7,15 +7,15 @@ const SearchBar = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const url = "http://localhost:3001/api";
-    const location = {
-      artist,
-    };
+    const url = `http://localhost:3001/api/:${artist}`;
+    // const queryParams = {
+    //   artist,
+    // };
     setIsloading(true);
     const res = await fetch(url, {
-      method: "POST",
+      method: "GET",
       headers: { "Content-type": "application/json" },
-      body: JSON.stringify(location),
+      // body: JSON.stringify(queryParams),
     });
     const data = await res.json();
     let song = data.map((item) => item.track);
