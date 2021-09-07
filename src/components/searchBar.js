@@ -1,25 +1,12 @@
 import React, { useState } from "react";
+import ArtistCard from "./artistCard";
+import Loader from "./loader";
 
 const SearchBar = () => {
-  const [paramToSearch, setParamToSerach] = useState();
-  const [tune, setTune] = useState();
   const [selectParam, setSelectParam] = useState("q_artist");
+  const [paramToSearch, setParamToSerach] = useState("");
+  const [tune, setTune] = useState();
   const [isLoading, setIsLoading] = useState(false);
-
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
-  //   const url = `http://localhost:3001/api/:${artist}`;
-  //   setIsloading(true);
-  //   const res = await fetch(url, {
-  //     method: "GET",
-  //     headers: { "Content-type": "application/json" },
-  //   });
-  //   const data = await res.json();
-  //   let song = data.map((item) => item.track);
-  //   setTune(song);
-  //   setIsloading(false);
-  //   setArtist(e.target.reset());
-  // };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -56,39 +43,35 @@ const SearchBar = () => {
 
   return (
     <div>
+      <h1>Lyrics Bites</h1>
+      <h3>Learn your favourite song one bite at a time</h3>
+
       <form onSubmit={handleSubmit}>
-        <h1>Lyrics Bites</h1>
-        <h3>Learn your favourite song one bite at a time</h3>
-        <div className="field">
-          <label>Search a Song</label>
-          <select value={selectParam} onChange={getSelectionQuery}>
-            <option value="q_artist">By Artist</option>
-            <option value="q_track">By Song</option>
-            <option value="q_lyrics">By Word</option>
-          </select>
-          <label className="label">Artist</label>
-          <div className="control">
-            <input
-              className="input"
-              type="text"
-              placeholder="Type artist name here"
-              onChange={handleChange}
-            />
-          </div>
-        </div>
-        <div className="field">
-          <div className="control">
-            <button type="submit">Get Songs</button>
-          </div>
-        </div>
+        <label>Search a Song</label>
+        <select value={selectParam} onChange={getSelectionQuery}>
+          <option value="q_artist">By Artist</option>
+          <option value="q_track">By Song</option>
+          <option value="q_lyrics">By Word</option>
+        </select>
+
+        <input
+          type="text"
+          name="paramToSearch"
+          autoComplete="on"
+          placeholder="search..."
+          value={paramToSearch}
+          onChange={handleChange}
+        />
+        <button type="submit">Get Songs</button>
       </form>
+
       <div>
         {isLoading ? (
-          <p>is loading</p>
+          <Loader />
         ) : (
           tune &&
           tune.map((song) => {
-            return <p key={song.track.track_id}>{song.track.track_name}</p>;
+            return <ArtistCard key={song.track.track_id} track={song.track} />;
           })
         )}
       </div>
