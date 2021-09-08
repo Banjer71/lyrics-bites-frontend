@@ -30,7 +30,7 @@ Due to the free MusixMatch API account, where you can get access only to 30% of 
 
 ## Second Phase
 
-<img src='./public/second-phase.jpg' width='500' />
+<img src='./public/second-phase.jpg' width='400' />
 
 ## Flow
 
