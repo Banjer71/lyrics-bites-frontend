@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import ArtistCard from "./artistCard";
 import Loader from "./loader";
 
@@ -14,17 +14,19 @@ const SearchBar = () => {
     const restUrl = `track.search?${selectParam}=${paramToSearch}&page_size=4&page=1&f_has_lyrics=1&s_track_rating=desc&apikey=${musicMatch}`;
     setIsLoading(true);
 
-    fetch(`/ws/1.1/${restUrl}`)
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data);
-        const info = data.message.body.track_list;
-        console.log(info);
-        setTune(info);
-        setIsLoading(false);
-      });
-    setParamToSerach(e.target.reset());
+    const getData = async () => {
+      const fetchData = await fetch(`/ws/1.1/${restUrl}`);
+      const data = await fetchData.json();
+      const info = data.message.body.track_list;
+      console.log(info);
+      setTune(info);
+      setIsLoading(false);
+      setParamToSerach(e.target.reset());
+    };
+    getData();
+    
   };
+
 
   const handleChange = (e) => {
     setParamToSerach(e.target.value);

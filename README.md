@@ -22,3 +22,16 @@ and set it to receive one verse every day in his email address.<br/>
 
 Due to the free MusixMatch API account, where you can get access only to 30% of their API, I used for the Album's cover LastFm API.
 
+--------
+
+## First Phase
+
+<img src='./public/first-phase.jpg' width='500' />
+
+## Second Phase
+
+<img src='./public/second-phase.jpg' width='500'/>
+
+## Flow
+
+<img src='./public/flow.jpg' width='500'/>
