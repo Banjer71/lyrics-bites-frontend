@@ -1,59 +1,79 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import ArtistCard from "./artistCard";
+import Loader from "./loader";
 
 const SearchBar = () => {
-  const [artist, setArtist] = useState("");
+  const [selectParam, setSelectParam] = useState("q_artist");
+  const [paramToSearch, setParamToSerach] = useState("");
   const [tune, setTune] = useState();
-  const [isLoading, setIsloading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    const url = `http://localhost:3001/api/:${artist}`;
-    // const queryParams = {
-    //   artist,
-    // };
-    setIsloading(true);
-    const res = await fetch(url, {
-      method: "GET",
-      headers: { "Content-type": "application/json" },
-      // body: JSON.stringify(queryParams),
-    });
-    const data = await res.json();
-    let song = data.map((item) => item.track);
-    setTune(song);
-    setIsloading(false);
-    setArtist(e.target.reset());
+    const musicMatch = process.env.REACT_APP_API_KEY_MUSICMATCH;
+    const restUrl = `track.search?${selectParam}=${paramToSearch}&page_size=4&page=1&f_has_lyrics=1&s_track_rating=desc&apikey=${musicMatch}`;
+    setIsLoading(true);
+
+    const getData = async () => {
+      const fetchData = await fetch(`/ws/1.1/${restUrl}`);
+      const data = await fetchData.json();
+      const info = data.message.body.track_list;
+      console.log(info);
+      setTune(info);
+      setIsLoading(false);
+      setParamToSerach(e.target.reset());
+    };
+    getData();
+    
+  };
+
+
+  const handleChange = (e) => {
+    setParamToSerach(e.target.value);
+  };
+
+  const getSelectionQuery = (e) => {
+    const newValue = e.target.value;
+    if (newValue === "q_lyrics") {
+      setSelectParam(newValue);
+    } else if (newValue === "q_track") {
+      setSelectParam(newValue);
+    } else {
+      setSelectParam(newValue);
+    }
   };
 
   return (
     <div>
-      <form onSubmit={handleSubmit}>
-        <h1>Lyrics Bites</h1>
-        <h3>Learn your favourite song one bite at a time</h3>
-        <div className="field">
-          <label className="label">Artist</label>
-          <div className="control">
-            <input
-              className="input"
-              type="text"
-              placeholder="Type artist name here"
-              onChange={(e) => setArtist(e.target.value)}
-            />
-          </div>
-        </div>
+      <h1>Lyrics Bites</h1>
+      <h3>Learn your favourite song one bite at a time</h3>
 
-        <div className="field">
-          <div className="control">
-            <button type="submit">Get Songs</button>
-          </div>
-        </div>
+      <form onSubmit={handleSubmit}>
+        <label>Search a Song</label>
+        <select value={selectParam} onChange={getSelectionQuery}>
+          <option value="q_artist">By Artist</option>
+          <option value="q_track">By Song</option>
+          <option value="q_lyrics">By Word</option>
+        </select>
+
+        <input
+          type="text"
+          name="paramToSearch"
+          autoComplete="on"
+          placeholder="search..."
+          value={paramToSearch}
+          onChange={handleChange}
+        />
+        <button type="submit">Get Songs</button>
       </form>
+
       <div>
         {isLoading ? (
-          <p>is loading</p>
+          <Loader />
         ) : (
           tune &&
           tune.map((song) => {
-            return <p key={song.track_id}>{song.track_name}</p>;
+            return <ArtistCard key={song.track.track_id} track={song.track} />;
           })
         )}
       </div>

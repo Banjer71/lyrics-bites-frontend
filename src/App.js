@@ -1,10 +1,13 @@
-import './App.css';
-import SearchBar from './components/searchBar';
+import { BrowserRouter as Router, Route } from "react-router-dom";
+import "./App.css";
+import SearchBar from "./components/searchBar";
 
 function App() {
   return (
     <div className="App">
-      <SearchBar />
+      <Router>
+        <SearchBar />
+      </Router>
     </div>
   );
 }
