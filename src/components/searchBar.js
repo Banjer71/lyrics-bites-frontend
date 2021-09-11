@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import ArtistCard from "./artistCard";
 import Loader from "./loader";
 
 const SearchBar = () => {
   const [selectParam, setSelectParam] = useState("q_artist");
-  const [paramToSearch, setParamToSerach] = useState("");
+  const [paramToSearch, setParamToSerach] = useState('');
   const [tune, setTune] = useState();
   const [isLoading, setIsLoading] = useState(false);
 
@@ -21,7 +21,7 @@ const SearchBar = () => {
       console.log(info);
       setTune(info);
       setIsLoading(false);
-      setParamToSerach(e.target.reset());
+      setParamToSerach('');
     };
     getData();
     
