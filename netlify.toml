@@ -1,4 +1,13 @@
 [build]
   command = "yarn run build"
   functions = "functions"
-  publish = "dist"
+  publish = "build"
+
+ 
+
+  [[redirects]]
+  from = "/ws/1.1/*"
+  to = "https://api.musixmatch.com/"
+  status = 200
+  force = true
+  signed = "REACT_APP_API_KEY_MUSICMATCH"
