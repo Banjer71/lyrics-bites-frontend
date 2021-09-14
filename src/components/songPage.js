@@ -22,7 +22,7 @@ const SongPage = (props) => {
 				return;
 			}
 
-			fetch(`/ws/1.1/track.lyrics.get?track_id=${trackId}&apikey=${process.env.REACT_APP_API_KEY_MUSICMATCH}`)
+			fetch(`https://api.musixmatch.com/ws/1.1/track.lyrics.get?track_id=${trackId}&apikey=${process.env.REACT_APP_API_KEY_MUSICMATCH}`)
 				.then((response) => response.json())
 				.then((data) => {
 					const words = data.message.body.lyrics;
@@ -34,7 +34,7 @@ const SongPage = (props) => {
 					}
 
 					return fetch(
-						`/ws/1.1/track.search?q_track=${songTrack}&apikey=${process.env.REACT_APP_API_KEY_MUSICMATCH}`
+						`https://api.musixmatch.com/ws/1.1/track.search?q_track=${songTrack}&apikey=${process.env.REACT_APP_API_KEY_MUSICMATCH}`
 					)
 						.then((res) => res.json())
 						.then((data) => {
@@ -42,7 +42,7 @@ const SongPage = (props) => {
 							setSongTitle(songName[0].track.track_name);
 
 							return fetch(
-								`/ws/1.1/album.tracks.get?album_id=${idAlbum}&apikey=${process.env.REACT_APP_API_KEY_MUSICMATCH}`
+								`https://api.musixmatch.com/ws/1.1/album.tracks.get?album_id=${idAlbum}&apikey=${process.env.REACT_APP_API_KEY_MUSICMATCH}`
 							)
 								.then((res) => res.json())
 								.then((data) => {
@@ -66,7 +66,7 @@ const SongPage = (props) => {
 			}
 
 			fetch(
-				`/2.0/?method=album.search&album=${album}&api_key=${process.env.REACT_APP_API_KEY_LASTFM}&format=json`,
+				`http://ws.audioscrobbler.com/2.0/?method=album.search&album=${album}&api_key=${process.env.REACT_APP_API_KEY_LASTFM}&format=json`,
 				{ signal }
 			)
 				.then((res) => res.json())
@@ -89,7 +89,7 @@ const SongPage = (props) => {
 	);
 
 	const getAlbumTracks = (idTrack, idAlbum) => {
-		fetch(`/ws/1.1/track.lyrics.get?track_id=${idTrack}&apikey=${process.env.REACT_APP_API_KEY_MUSICMATCH}`)
+		fetch(`https://api.musixmatch.com/ws/1.1/track.lyrics.get?track_id=${idTrack}&apikey=${process.env.REACT_APP_API_KEY_MUSICMATCH}`)
 			.then((res) => res.json())
 			.then((data) => {
 				const lyric = data.message.body.lyrics;
@@ -97,7 +97,7 @@ const SongPage = (props) => {
 				setLyrics(lyric.lyrics_body);
 
 				return fetch(
-					`/ws/1.1/album.tracks.get?album_id=${idAlbum}&apikey=${process.env.REACT_APP_API_KEY_MUSICMATCH}`
+					`https://api.musixmatch.com/ws/1.1/album.tracks.get?album_id=${idAlbum}&apikey=${process.env.REACT_APP_API_KEY_MUSICMATCH}`
 				)
 					.then((res) => res.json())
 					.then((data) => {

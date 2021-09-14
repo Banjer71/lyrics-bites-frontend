@@ -13,7 +13,7 @@ const ArtistCard = ({ track }) => {
 
     const lastfm2 = `/?method=album.search&album=${name}&api_key=${apy_key_lastfm}&format=json`;
 
-    fetch(`/2.0${lastfm2}`)
+    fetch(`http://ws.audioscrobbler.com/2.0${lastfm2}`)
       .then((res) => res.json())
       .then((data) => {
         const albumCover = data.results.albummatches.album[0].image[3]["#text"];

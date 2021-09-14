@@ -17,7 +17,7 @@ const SearchBar = () => {
     setIsLoading(true);
 
     const getData = async () => {
-      const fetchData = await fetch(`/ws/1.1/${restUrl}`);
+      const fetchData = await fetch(`https://api.musixmatch.com/ws/1.1/${restUrl}`);
       const data = await fetchData.json();
       const info = data.message.body.track_list;
       console.log(info);
