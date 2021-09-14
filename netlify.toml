@@ -1,2 +1,1 @@
-/ws/1.1/*  https://api.musixmatch.com/:splat  200,
-/2.0/*     http://ws.audioscrobbler.com/:splat 200
+/ws/1.1/*  https://api.musixmatch.com/:splat  200
