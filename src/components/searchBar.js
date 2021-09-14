@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 import ArtistCard from "./artistCard";
+import Header from "./header";
 import Loader from "./loader";
+import '../css/searchbar.css';
 
 const SearchBar = () => {
   const [selectParam, setSelectParam] = useState("q_artist");
-  const [paramToSearch, setParamToSerach] = useState('');
+  const [paramToSearch, setParamToSerach] = useState("");
   const [tune, setTune] = useState();
   const [isLoading, setIsLoading] = useState(false);
 
@@ -21,12 +23,10 @@ const SearchBar = () => {
       console.log(info);
       setTune(info);
       setIsLoading(false);
-      setParamToSerach('');
+      setParamToSerach("");
     };
     getData();
-    
   };
-
 
   const handleChange = (e) => {
     setParamToSerach(e.target.value);
@@ -44,11 +44,10 @@ const SearchBar = () => {
   };
 
   return (
-    <div>
-      <h1>Lyrics Bites</h1>
-      <h3>Learn your favourite song one bite at a time</h3>
-
-      <form onSubmit={handleSubmit}>
+    <div className="search-bar">
+      <Header />
+      <div className="field">
+      <form className="form-u" onSubmit={handleSubmit}>
         <label>Search a Song</label>
         <select value={selectParam} onChange={getSelectionQuery}>
           <option value="q_artist">By Artist</option>
@@ -67,7 +66,8 @@ const SearchBar = () => {
         <button type="submit">Get Songs</button>
       </form>
 
-      <div>
+      </div>
+      <div className="grid track">
         {isLoading ? (
           <Loader />
         ) : (

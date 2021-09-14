@@ -1,0 +1,74 @@
+.card img {
+    max-width: 200px;
+  }
+  
+  .track .card {
+    grid-column: 1/9;
+    margin: 20px 0;
+    display: flex;
+    align-items: center;
+  }
+  
+  .track .card img {
+    margin-left: 20px;
+    max-width: 40%;
+  }
+  
+  .track .card .card-link {
+    margin-left: 10px;
+  }
+  
+  .card-link {
+    font-size: 16px;
+  }
+  
+  .card-link p:nth-child(2) {
+    font-weight: bold;
+    color: #000;
+  }
+  
+  .card button {
+    margin: 5px auto 10px auto;
+    text-align: center;
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    border: 2px solid #ffc107;
+    background-color: #fce72cee;
+    font-family: "Courier";
+    font-size: 16px;
+    display: block;
+  }
+  
+  @media screen and (min-width: 620px) {
+    .track .card {
+      grid-column: span 4;
+      margin: 20px 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+  
+    .track .card img {
+      max-width: 60%;
+      margin-left: 0;
+    }
+  
+    .track .card .card-link {
+      margin-left: 0;
+      margin-top: 10px;
+      text-align: center;
+    }
+  }
+  
+  @media screen and (min-width: 960px) {
+    .track .card {
+      grid-column: span 2;
+    }
+  
+    .track .card img {
+      margin-left: 0;
+    }
+  }
+  
+  
