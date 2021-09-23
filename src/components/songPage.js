@@ -121,20 +121,18 @@ const SongPage = (props) => {
       });
   };
 
-  
   const sendSongViaEmail = async () => {
-    console.log(typeof lyric)
     await fetch(`/api/song`, {
       method: "POST",
       headers: {
-        'Content-Type': 'application/json'
+        "Content-Type": "application/json",
       },
-      body: JSON.stringify({lyric}),
+      body: JSON.stringify({ lyric }),
     })
       .then((res) => res.json())
       .then((data) => console.log(data))
       .catch((error) => {
-        console.error("Error:", error);
+        console.error(error);
       });
   };
 
