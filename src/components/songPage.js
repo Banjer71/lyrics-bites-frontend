@@ -49,6 +49,7 @@ const SongPage = (props) => {
           .then((res) => res.json())
           .then((data) => {
             const songName = data.message.body.track_list;
+            console.log(songName);
             setSongTitle(songName[0].track.track_name);
 
             return fetch(
@@ -100,7 +101,9 @@ const SongPage = (props) => {
     )
       .then((res) => res.json())
       .then((data) => {
+        console.log(data.message.body);
         const lyric = data.message.body.lyrics;
+
         setLyrics(lyric.lyrics_body);
 
         return fetch(
@@ -148,10 +151,11 @@ const SongPage = (props) => {
               ? "no lyrics on the database"
               : copyRight}
           </pre>
-
-          <button onClick={sendSongViaEmail} className="btn-get-song">
-            Get your song via Email
-          </button>
+          <Link to="/DisplayAllSongs">
+            <button onClick={sendSongViaEmail} className="btn-get-song">
+              Get your song via Email
+            </button>
+          </Link>
 
           <Link to="/">
             <button>Back to the HomePage</button>

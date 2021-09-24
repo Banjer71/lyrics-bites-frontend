@@ -73,7 +73,7 @@ const SearchBar = () => {
         ) : (
           tune &&
           tune.map((song) => {
-            return <ArtistCard key={song.track.track_id} track={song.track} />;
+            return <ArtistCard key={song.track.track_id} track={song.track} album={song.album_name} />
           })
         )}
       </div>

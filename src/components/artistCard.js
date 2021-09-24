@@ -38,6 +38,7 @@ const ArtistCard = ({ track }) => {
         }}
       >
         <p>{track.artist_name}</p>
+        <p>{track.album_name}</p>
         <p>{track.track_name}</p>
       </Link>
     </div>
