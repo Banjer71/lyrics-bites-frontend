@@ -13,6 +13,8 @@ const SongPage = (props) => {
   const [albumId, setAlbumId] = useState("");
 
   useEffect(() => {
+
+    //verifico se le props.state location esiste 
     const trackId =
       props.location && props.location.state
         ? props.location.state.trackId
@@ -30,6 +32,8 @@ const SongPage = (props) => {
       return;
     }
 
+    //con il trackId cerco il testo della canzone, il controllo sull undefined l'ho inserito perche' alle volte mi da errore
+    //ma ho scoperto che posso anche filtrare le api richiedendo solo brani che hanno il testo. Lo metto come bug in seguito da sistemare.
     fetch(
       `/ws/1.1/track.lyrics.get?track_id=${trackId}&apikey=${process.env.REACT_APP_API_KEY_MUSICMATCH}`
     )
@@ -42,7 +46,7 @@ const SongPage = (props) => {
         } else {
           return;
         }
-
+//con questa cerco il titolo
         return fetch(
           `/ws/1.1/track.search?q_track=${songTrack}&apikey=${process.env.REACT_APP_API_KEY_MUSICMATCH}`
         )
@@ -52,6 +56,7 @@ const SongPage = (props) => {
             console.log(songName);
             setSongTitle(songName[0].track.track_name);
 
+// con questa invece cerco l'id dell'album
             return fetch(
               `/ws/1.1/album.tracks.get?album_id=${idAlbum}&apikey=${process.env.REACT_APP_API_KEY_MUSICMATCH}`
             )
@@ -64,6 +69,8 @@ const SongPage = (props) => {
       });
   }, [props.location]);
 
+  // qui grazie allo state album mi cerco la copertina e
+  //i dati dell'artista che richiedo all'api di lastfm
   useEffect(() => {
     const abortControlledApi = new AbortController();
     const signal = abortControlledApi.signal;
