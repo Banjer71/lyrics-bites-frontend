@@ -4,17 +4,20 @@ import defImage from "../imageDef.png";
 import "../css/songpage.css";
 
 const SongPage = (props) => {
-  const [lyric, setLyrics] = useState("");
+  const [lyric, setLyric] = useState("");
   const [copyRight, setCopyright] = useState("null");
   const [artist, setArtist] = useState("");
   const [cover, setCover] = useState("");
   const [albumTitle, setAlbumTitle] = useState("");
   const [songTitle, setSongTitle] = useState("");
   const [albumId, setAlbumId] = useState("");
+  const [updateState, setUpdateState] = useState(props.location.state);
+
+  console.log("stato attuale: ", updateState);
 
   useEffect(() => {
+    //verifico se le props.state location esiste
 
-    //verifico se le props.state location esiste 
     const trackId =
       props.location && props.location.state
         ? props.location.state.trackId
@@ -25,7 +28,7 @@ const SongPage = (props) => {
         : "";
     const idAlbum =
       props.location && props.location.state
-        ? props.location.state.albumId
+        ? props.location.state.album_id
         : "";
 
     if (!trackId && !songTrack && idAlbum) {
@@ -41,22 +44,22 @@ const SongPage = (props) => {
       .then((data) => {
         const words = data.message.body.lyrics;
         if (typeof words !== "undefined") {
-          setLyrics(words.lyrics_body);
+          setLyric(words.lyrics_body);
           setCopyright(words.lyrics_copyright);
         } else {
           return;
         }
-//con questa cerco il titolo
+
+        //con questa cerco il titolo
         return fetch(
           `/ws/1.1/track.search?q_track=${songTrack}&apikey=${process.env.REACT_APP_API_KEY_MUSICMATCH}`
         )
           .then((res) => res.json())
           .then((data) => {
             const songName = data.message.body.track_list;
-            console.log(songName);
             setSongTitle(songName[0].track.track_name);
 
-// con questa invece cerco l'id dell'album
+            // con questa invece cerco l'id dell'album
             return fetch(
               `/ws/1.1/album.tracks.get?album_id=${idAlbum}&apikey=${process.env.REACT_APP_API_KEY_MUSICMATCH}`
             )
@@ -102,16 +105,29 @@ const SongPage = (props) => {
     };
   }, [props.location]);
 
-  const getAlbumTracks = (idTrack, idAlbum) => {
+  //console.log('state precedente: ', prevPropsLocation)
+
+  const getAlbumTracks = (idTrack, idAlbum, ...props) => {
+    let prevData = props.map((item) => {
+      return {
+        album_id: item.album_id,
+        album_name: item.album_name,
+        artistName: item.artist_name,
+        artistId: item.artist_id,
+        songName: item.track_name,
+        trackId: item.track_id,
+      };
+    });
+    setUpdateState(...prevData);
+
     fetch(
       `/ws/1.1/track.lyrics.get?track_id=${idTrack}&apikey=${process.env.REACT_APP_API_KEY_MUSICMATCH}`
     )
       .then((res) => res.json())
       .then((data) => {
-        console.log(data.message.body);
+        console.log("richiesta altre song: ", data.message.body);
         const lyric = data.message.body.lyrics;
-
-        setLyrics(lyric.lyrics_body);
+        setLyric(lyric.lyrics_body);
 
         return fetch(
           `/ws/1.1/album.tracks.get?album_id=${idAlbum}&apikey=${process.env.REACT_APP_API_KEY_MUSICMATCH}`
@@ -119,6 +135,8 @@ const SongPage = (props) => {
           .then((res) => res.json())
           .then((data) => {
             const songName = data.message.body.track_list;
+            console.log("songName: ", songName);
+
             setSongTitle(
               songName &&
                 songName.map((item) => {
@@ -132,12 +150,17 @@ const SongPage = (props) => {
   };
 
   const sendSongViaEmail = async () => {
+    const dataToSave = {
+      ...updateState,
+      words: lyric,
+    };
+    console.log("ready to be saved:", dataToSave);
     await fetch(`/api/song`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ lyric }),
+      body: JSON.stringify(dataToSave),
     })
       .then((res) => res.json())
       .then((data) => console.log(data))
@@ -158,11 +181,11 @@ const SongPage = (props) => {
               ? "no lyrics on the database"
               : copyRight}
           </pre>
-          <Link to="/DisplayAllSongs">
-            <button onClick={sendSongViaEmail} className="btn-get-song">
-              Get your song via Email
-            </button>
-          </Link>
+          {/* <Link to="/DisplayAllSongs"> */}
+          <button onClick={sendSongViaEmail} className="btn-get-song">
+            Save this song
+          </button>
+          {/* </Link> */}
 
           <Link to="/">
             <button>Back to the HomePage</button>
@@ -179,7 +202,11 @@ const SongPage = (props) => {
                   <li
                     key={song.track.track_id}
                     onClick={() =>
-                      getAlbumTracks(song.track.track_id, song.track.album_id)
+                      getAlbumTracks(
+                        song.track.track_id,
+                        song.track.album_id,
+                        song.track
+                      )
                     }
                   >
                     <a href="#top">{song.track.track_name}</a>
