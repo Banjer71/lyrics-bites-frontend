@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import defImg from "../imageDef.png";
+import "../css/artistcard.css";
 
 const ArtistCard = ({ track }) => {
   const [cover, setCover] = useState("");
@@ -12,13 +13,13 @@ const ArtistCard = ({ track }) => {
 
     const lastfm2 = `/?method=album.search&album=${name}&api_key=${apy_key_lastfm}&format=json`;
 
-    fetch(`/2.0${lastfm2}`)
-      .then((res) => res.json())
-      .then((data) => {
-        const albumCover = data.results.albummatches.album[0].image[3]["#text"];
-        setCover(albumCover);
-      })
-      .catch((err) => console.log(err));
+    const fetchCover = async () => {
+      const response = await fetch(`/2.0${lastfm2}`);
+      const covers = await response.json();
+      const albumCover = covers.results.albummatches.album[0].image[3]["#text"];
+      setCover(albumCover);
+    };
+    fetchCover().catch((err) => console.log(err));
   }, [track.album_name]);
 
   return (
@@ -29,14 +30,17 @@ const ArtistCard = ({ track }) => {
         to={{
           pathname: "/SongPage",
           state: {
-            trackId: track.track_id,
+            album_id: track.album_id,
             album: track.album_name,
+            trackId: track.track_id,
+            artistId: track.artist_id,
+            artistName: track.artist_name,
             songName: track.track_name,
-            albumId: track.album_id,
           },
         }}
       >
         <p>{track.artist_name}</p>
+        <p>{track.album_name}</p>
         <p>{track.track_name}</p>
       </Link>
     </div>

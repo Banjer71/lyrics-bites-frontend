@@ -2,7 +2,7 @@
   "name": "lyrics-bites-frontend",
   "version": "0.1.1",
   "private": true,
-  "proxy": "http://localhost:3001",
+  "proxy": "http://localhost:5000",
   "dependencies": {
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
