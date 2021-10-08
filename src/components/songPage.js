@@ -13,6 +13,7 @@ const SongPage = (props) => {
   const [albumId, setAlbumId] = useState("");
   const [updateState, setUpdateState] = useState(props.location.state);
 
+
   useEffect(() => {
     //verifico se le props.state location esiste
 
@@ -104,6 +105,7 @@ const SongPage = (props) => {
   }, [props.location]);
 
 
+
   const getAlbumTracks = (idTrack, idAlbum, ...props) => {
     let prevData = props.map((item) => {
       return {
@@ -132,6 +134,7 @@ const SongPage = (props) => {
           .then((res) => res.json())
           .then((data) => {
             const songName = data.message.body.track_list;
+
             setSongTitle(
               songName &&
                 songName.map((item) => {
@@ -149,6 +152,7 @@ const SongPage = (props) => {
       ...updateState,
       words: lyric,
     };
+
     await fetch(`/api/song`, {
       method: "POST",
       headers: {

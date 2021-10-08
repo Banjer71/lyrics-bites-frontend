@@ -6,15 +6,30 @@ import ShowLyrics from "./components/showLyrics";
 import "./index.css";
 import Navbar from "./components/navbar";
 
+import ShowLyrics from './components/showLyrics'
+import "./index.css";
+import Navbar from "./components/navbar";
+
+
+
 function App() {
   return (
     <div className="App">
       <Router>
         <Navbar />
+
         <Route path="/" exact component={SearchBar} />
         <Route path="/SongPage" exact component={SongPage} />
         <Route path="/DisplayAllSongs" exact component={DisplayAllSongs} />
         <Route path="/ShowLyrics" exact component={ShowLyrics} />
+
+        
+        <Route path="/" exact component={SearchBar} />
+        <Route path="/SongPage" exact component={SongPage} />
+        <Route path="/DisplayAllSongs" exact component={DisplayAllSongs} />
+        <Route path='/ShowLyrics' exact component={ShowLyrics}/>
+      
+
       </Router>
     </div>
   );
