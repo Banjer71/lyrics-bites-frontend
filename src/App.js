@@ -11,6 +11,7 @@ function App() {
     <div className="App">
       <Router>
         <Navbar />
+
         <Route path="/" exact component={SearchBar} />
         <Route path="/SongPage" exact component={SongPage} />
         <Route path="/DisplayAllSongs" exact component={DisplayAllSongs} />

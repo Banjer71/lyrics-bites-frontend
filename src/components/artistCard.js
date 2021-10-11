@@ -7,11 +7,14 @@ const ArtistCard = ({ track }) => {
   const [cover, setCover] = useState("");
 
   useEffect(() => {
+    let apy_key_lastfm = process.env.REACT_APP_API_KEY_LASTFM;
     let albumName = track.album_name;
     let name = albumName.replace(/ /gi, "%20");
 
+    const lastfm2 = `/?method=album.search&album=${name}&api_key=${apy_key_lastfm}&format=json`;
+
     const fetchCover = async () => {
-      const response = await fetch(`/api/covers/${name}`);
+      const response = await fetch(`/2.0${lastfm2}`);
       const covers = await response.json();
       const albumCover = covers.results.albummatches.album[0].image[3]["#text"];
       setCover(albumCover);

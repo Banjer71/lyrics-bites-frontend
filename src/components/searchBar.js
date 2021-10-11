@@ -12,13 +12,15 @@ const SearchBar = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    const musicMatch = process.env.REACT_APP_API_KEY_MUSICMATCH;
+    const restUrl = `track.search?${selectParam}=${paramToSearch}&page_size=4&page=6&page_size=5&f_has_lyrics=1&s_track_rating=desc&apikey=${musicMatch}`;
     setIsLoading(true);
 
     const getData = async () => {
-      const fetchData = await fetch(`/api/search/${selectParam}/${paramToSearch}`);
+      const fetchData = await fetch(`/ws/1.1/${restUrl}`);
       const data = await fetchData.json();
-      console.log('from the client: ', data)
-      setTune(data);
+      const info = data.message.body.track_list;
+      setTune(info);
       setIsLoading(false);
       setParamToSerach("");
     };
