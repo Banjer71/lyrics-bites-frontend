@@ -14,7 +14,7 @@ const SongPage = (props) => {
   const [updateState, setUpdateState] = useState(props.location.state);
 
   useEffect(() => {
-    //verifico se le props.state location esiste
+    //verifying if the  props.state location exsist
 
     const trackId =
       props.location && props.location.state
@@ -33,14 +33,14 @@ const SongPage = (props) => {
       return;
     }
 
-    //con il trackId cerco il testo della canzone, il controllo sull undefined l'ho inserito perche' alle volte mi da errore
-    //ma ho scoperto che posso anche filtrare le api richiedendo solo brani che hanno il testo. Lo metto come bug in seguito da sistemare.
-    fetch(
-      `/ws/1.1/track.lyrics.get?track_id=${trackId}&apikey=${process.env.REACT_APP_API_KEY_MUSICMATCH}`
-    )
+    
+    // the trackId variable contain the value from the form 
+    
+    fetch(`/api/words/${trackId}`)
       .then((response) => response.json())
-      .then((data) => {
-        const words = data.message.body.lyrics;
+      .then((words) => {
+        console.log('words from client: ', words)
+        // const words = data.message.body.lyrics;
         if (typeof words !== "undefined") {
           setLyric(words.lyrics_body);
           setCopyright(words.lyrics_copyright);
@@ -49,21 +49,19 @@ const SongPage = (props) => {
         }
 
         //con questa cerco il titolo
-        return fetch(
-          `/ws/1.1/track.search?q_track=${songTrack}&apikey=${process.env.REACT_APP_API_KEY_MUSICMATCH}`
-        )
+        return fetch(`/api/songtracks/${songTrack}`)
           .then((res) => res.json())
           .then((data) => {
-            const songName = data.message.body.track_list;
-            setSongTitle(songName[0].track.track_name);
+            console.log('song track dal client: ', data)
+            // const songName = data.message.body.track_list;
+            setSongTitle(data);
 
             // con questa invece cerco l'id dell'album
-            return fetch(
-              `/ws/1.1/album.tracks.get?album_id=${idAlbum}&apikey=${process.env.REACT_APP_API_KEY_MUSICMATCH}`
-            )
+            return fetch(`/api/album/${idAlbum}`)
               .then((res) => res.json())
-              .then((data) => {
-                const albumListSong = data.message.body.track_list;
+              .then((albumListSong) => {
+             
+
                 setAlbumId(albumListSong);
               });
           });
@@ -83,16 +81,16 @@ const SongPage = (props) => {
     }
 
     fetch(
-      `/2.0/?method=album.search&album=${album}&api_key=${process.env.REACT_APP_API_KEY_LASTFM}&format=json`,
+      `/api/coverAlbum/${album}`,
       { signal }
     )
       .then((res) => res.json())
       .then((data) => {
-        const albumInfo = data.results.albummatches.album[0];
-        if (typeof albumInfo !== "undefined") {
-          setCover(albumInfo.image[3]["#text"]);
-          setArtist(albumInfo.artist);
-          setAlbumTitle(albumInfo.name);
+        // const albumInfo = data.results.albummatches.album[0];
+        if (typeof data !== "undefined") {
+          setCover(data.image[3]["#text"]);
+          setArtist(data.artist);
+          setAlbumTitle(data.name);
         } else {
           setCover(defImage);
         }
@@ -102,7 +100,6 @@ const SongPage = (props) => {
       abortControlledApi.abort();
     };
   }, [props.location]);
-
 
   const getAlbumTracks = (idTrack, idAlbum, ...props) => {
     let prevData = props.map((item) => {
@@ -118,20 +115,20 @@ const SongPage = (props) => {
     setUpdateState(...prevData);
 
     fetch(
-      `/ws/1.1/track.lyrics.get?track_id=${idTrack}&apikey=${process.env.REACT_APP_API_KEY_MUSICMATCH}`
+      `/api/trackLyrics/${idTrack}`
     )
       .then((res) => res.json())
       .then((data) => {
-        console.log("richiesta altre song: ", data.message.body);
-        const lyric = data.message.body.lyrics;
-        setLyric(lyric.lyrics_body);
+        console.log("richiesta altre song: ", data);
+        const lyric = data.lyrics_body;
+        setLyric(lyric);
 
         return fetch(
-          `/ws/1.1/album.tracks.get?album_id=${idAlbum}&apikey=${process.env.REACT_APP_API_KEY_MUSICMATCH}`
+          `/api/albumTracksGet/${idAlbum}`
         )
           .then((res) => res.json())
-          .then((data) => {
-            const songName = data.message.body.track_list;
+          .then((songName) => {
+            // const songName = data.message.body.track_list;
             setSongTitle(
               songName &&
                 songName.map((item) => {
