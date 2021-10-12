@@ -76,38 +76,6 @@ const SongPage = (props) => {
     
   }, [props.location]);
 
-  
-  // useEffect(() => {
-  //   const abortControlledApi = new AbortController();
-  //   const signal = abortControlledApi.signal;
-  //   const album =
-  //     props.location && props.location.state ? props.location.state.album : "";
-
-  //   if (!album) {
-  //     return;
-  //   }
-
-  //   fetch(
-  //     `/2.0/?method=album.search&album=${album}&api_key=${process.env.REACT_APP_API_KEY_LASTFM}&format=json`,
-  //     { signal }
-  //   )
-  //     .then((res) => res.json())
-  //     .then((data) => {
-  //       const albumInfo = data.results.albummatches.album[0];
-  //       if (typeof albumInfo !== "undefined") {
-  //         setCover(albumInfo.image[3]["#text"]);
-  //         setArtist(albumInfo.artist);
-  //         setAlbumTitle(albumInfo.name);
-  //       } else {
-  //         setCover(defImage);
-  //       }
-  //     });
-
-  //   return function cleanUp() {
-  //     abortControlledApi.abort();
-  //   };
-  // }, [props.location]);
-
   const getAlbumTracks = (idTrack, idAlbum, ...props) => {
     let prevData = props.map((item) => {
       return {
