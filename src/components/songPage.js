@@ -41,29 +41,28 @@ const SongPage = (props) => {
 
     Promise.all([
       fetch(`/ws/1.1/track.lyrics.get?track_id=${trackId}&apikey=${process.env.REACT_APP_API_KEY_MUSICMATCH}`),
-      fetch( `/ws/1.1/track.search?q_track=${songTrack}&apikey=${process.env.REACT_APP_API_KEY_MUSICMATCH}`),
-      fetch( `/ws/1.1/album.tracks.get?album_id=${idAlbum}&apikey=${process.env.REACT_APP_API_KEY_MUSICMATCH}`),
+      fetch(`/ws/1.1/track.search?q_track=${songTrack}&apikey=${process.env.REACT_APP_API_KEY_MUSICMATCH}`),
+      fetch(`/ws/1.1/album.tracks.get?album_id=${idAlbum}&apikey=${process.env.REACT_APP_API_KEY_MUSICMATCH}`),
       fetch(`/2.0/?method=album.search&album=${album}&api_key=${process.env.REACT_APP_API_KEY_LASTFM}&format=json`, { signal })
     ])
     .then(res => Promise.all(res.map(res => res.json())))
     .then(data => {
-      const words = data[0].message.body.lyrics;
-      const songName = data[1].message.body.track_list;
-      const albumListSong = data[2].message.body.track_list;
-      const albumInfo = data[3].results.albummatches.album[0];
-        if (typeof words !== "undefined") {
-          setLyric(words.lyrics_body);
-          setCopyright(words.lyrics_copyright);
+      const lyrics = data[0].message.body.lyrics;
+      const songTitle = data[1].message.body.track_list;
+      const albumTracksList = data[2].message.body.track_list;
+      const coverAlbum = data[3].results.albummatches.album[0];
+        if (typeof lyrics !== "undefined") {
+          setLyric(lyrics.lyrics_body);
+          setCopyright(lyrics.lyrics_copyright);
         } else {
-          console.log('no lyrics')
           return;
         }
-      setSongTitle(songName[0].track.track_name);
-      setAlbumId(albumListSong);
-            if (typeof albumInfo !== "undefined") {
-          setCover(albumInfo.image[3]["#text"]);
-          setArtist(albumInfo.artist);
-          setAlbumTitle(albumInfo.name);
+      setSongTitle(songTitle[0].track.track_name);
+      setAlbumId(albumTracksList);
+            if (typeof coverAlbum !== "undefined") {
+          setCover(coverAlbum.image[3]["#text"]);
+          setArtist(coverAlbum.artist);
+          setAlbumTitle(coverAlbum.name);
         } else {
           setCover(defImage);
         }
@@ -83,7 +82,7 @@ const SongPage = (props) => {
         album_name: item.album_name,
         artistName: item.artist_name,
         artistId: item.artist_id,
-        songName: item.track_name,
+        songTitle: item.track_name,
         trackId: item.track_id,
       };
     });
