@@ -23,15 +23,11 @@ const DisplayAllSongs = () => {
     <div>
       <h1>Your Song Collection</h1>
       <div>
-    
         {displayAll && displayAll.length !== 0 ? (
-       
-
           displayAll.map((song) => {
             return (
               <pre key={song._id}>
                 <h2>
-
                   <Link
                     to={{
                       pathname: "/ShowLyrics",
@@ -52,9 +48,6 @@ const DisplayAllSongs = () => {
           <p style={{ textAlign: "center" }}>Your songs list is empty</p>
         )}
         <button onClick={deleteAllSongs}>Delete all songs</button>
-
-                
-
       </div>
     </div>
   );
