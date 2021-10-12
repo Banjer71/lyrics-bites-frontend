@@ -14,7 +14,8 @@ const SongPage = (props) => {
   const [updateState, setUpdateState] = useState(props.location.state);
 
   useEffect(() => {
-
+    const abortControlledApi = new AbortController();
+    const signal = abortControlledApi.signal;
     const trackId =
       props.location && props.location.state
         ? props.location.state.trackId
@@ -31,61 +32,81 @@ const SongPage = (props) => {
     if (!trackId && !songTrack && idAlbum) {
       return;
     }
-
-    Promise.all([
-      fetch(`/ws/1.1/track.lyrics.get?track_id=${trackId}&apikey=${process.env.REACT_APP_API_KEY_MUSICMATCH}`),
-      fetch( `/ws/1.1/track.search?q_track=${songTrack}&apikey=${process.env.REACT_APP_API_KEY_MUSICMATCH}`),
-      fetch( `/ws/1.1/album.tracks.get?album_id=${idAlbum}&apikey=${process.env.REACT_APP_API_KEY_MUSICMATCH}`)
-    ])
-    .then(res => Promise.all(res.map(res => res.json())))
-    .then(data => {
-      const words = data[0].message.body.lyrics;
-      const songName = data[1].message.body.track_list;
-      const albumListSong = data[2].message.body.track_list;
-        if (typeof words !== "undefined") {
-          setLyric(words.lyrics_body);
-          setCopyright(words.lyrics_copyright);
-        } else {
-          return;
-        }
-      setSongTitle(songName[0].track.track_name);
-      setAlbumId(albumListSong);
-    })
-    .catch(err => console.log(err));
-    
-  }, [props.location]);
-
-  
-  useEffect(() => {
-    const abortControlledApi = new AbortController();
-    const signal = abortControlledApi.signal;
-    const album =
+      const album =
       props.location && props.location.state ? props.location.state.album : "";
 
     if (!album) {
       return;
     }
 
-    fetch(
-      `/2.0/?method=album.search&album=${album}&api_key=${process.env.REACT_APP_API_KEY_LASTFM}&format=json`,
-      { signal }
-    )
-      .then((res) => res.json())
-      .then((data) => {
-        const albumInfo = data.results.albummatches.album[0];
-        if (typeof albumInfo !== "undefined") {
+    Promise.all([
+      fetch(`/ws/1.1/track.lyrics.get?track_id=${trackId}&apikey=${process.env.REACT_APP_API_KEY_MUSICMATCH}`),
+      fetch( `/ws/1.1/track.search?q_track=${songTrack}&apikey=${process.env.REACT_APP_API_KEY_MUSICMATCH}`),
+      fetch( `/ws/1.1/album.tracks.get?album_id=${idAlbum}&apikey=${process.env.REACT_APP_API_KEY_MUSICMATCH}`),
+      fetch(`/2.0/?method=album.search&album=${album}&api_key=${process.env.REACT_APP_API_KEY_LASTFM}&format=json`, { signal })
+    ])
+    .then(res => Promise.all(res.map(res => res.json())))
+    .then(data => {
+      const words = data[0].message.body.lyrics;
+      const songName = data[1].message.body.track_list;
+      const albumListSong = data[2].message.body.track_list;
+      const albumInfo = data[3].results.albummatches.album[0];
+        if (typeof words !== "undefined") {
+          setLyric(words.lyrics_body);
+          setCopyright(words.lyrics_copyright);
+        } else {
+          console.log('no lyrics')
+          return;
+        }
+      setSongTitle(songName[0].track.track_name);
+      setAlbumId(albumListSong);
+            if (typeof albumInfo !== "undefined") {
           setCover(albumInfo.image[3]["#text"]);
           setArtist(albumInfo.artist);
           setAlbumTitle(albumInfo.name);
         } else {
           setCover(defImage);
         }
-      });
+    })
+    .catch(err => console.log(err));
 
-    return function cleanUp() {
+      return function cleanUp() {
       abortControlledApi.abort();
     };
+    
   }, [props.location]);
+
+  
+  // useEffect(() => {
+  //   const abortControlledApi = new AbortController();
+  //   const signal = abortControlledApi.signal;
+  //   const album =
+  //     props.location && props.location.state ? props.location.state.album : "";
+
+  //   if (!album) {
+  //     return;
+  //   }
+
+  //   fetch(
+  //     `/2.0/?method=album.search&album=${album}&api_key=${process.env.REACT_APP_API_KEY_LASTFM}&format=json`,
+  //     { signal }
+  //   )
+  //     .then((res) => res.json())
+  //     .then((data) => {
+  //       const albumInfo = data.results.albummatches.album[0];
+  //       if (typeof albumInfo !== "undefined") {
+  //         setCover(albumInfo.image[3]["#text"]);
+  //         setArtist(albumInfo.artist);
+  //         setAlbumTitle(albumInfo.name);
+  //       } else {
+  //         setCover(defImage);
+  //       }
+  //     });
+
+  //   return function cleanUp() {
+  //     abortControlledApi.abort();
+  //   };
+  // }, [props.location]);
 
   const getAlbumTracks = (idTrack, idAlbum, ...props) => {
     let prevData = props.map((item) => {
@@ -106,8 +127,12 @@ const SongPage = (props) => {
     ])
     .then(res => Promise.all(res.map(res => res.json())))
     .then(data => {
+      console.log(data)
       const lyric = data[0].message.body.lyrics;
+      
+      console.log(lyric)
       setLyric(lyric.lyrics_body);
+     
       const songName = data[1].message.body.track_list;
       setSongTitle(
                   songName &&
