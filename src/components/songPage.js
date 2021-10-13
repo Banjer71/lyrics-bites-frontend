@@ -28,12 +28,14 @@ const SongPage = (props) => {
       props.location && props.location.state
         ? props.location.state.album_id
         : "";
+    const album =
+      props.location && props.location.state 
+        ? props.location.state.album 
+        : "";
 
     if (!trackId && !songTrack && idAlbum) {
       return;
     }
-      const album =
-      props.location && props.location.state ? props.location.state.album : "";
 
     if (!album) {
       return;

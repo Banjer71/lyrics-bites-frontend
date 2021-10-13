@@ -1,0 +1,8 @@
+[build]
+publish = "."
+command = "echo 'I be building'"
+
+[[redirects]]
+    from = "/ws/1.1/*"
+    to = "https://api.musixmatch.com/:splat"
+    status = 200

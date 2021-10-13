@@ -10,9 +10,9 @@ const ShowLyrics = (props) => {
     }).then((res) => res.json());
   };
 
-  const sendLyrics = async () => {
+  const sendLyrics = () => {
     try {
-      await fetch(`/send_email/${lyrics}`)
+      fetch(`/send_email/${lyrics}`)
         .then((res) => res.json())
         .then((data) => console.log(data));
     } catch (error) {
