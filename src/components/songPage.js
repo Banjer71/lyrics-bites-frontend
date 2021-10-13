@@ -22,7 +22,7 @@ const SongPage = (props) => {
         : "";
     const songTrack =
       props.location && props.location.state
-        ? props.location.state.songName
+        ? props.location.state.songTitle
         : "";
     const idAlbum =
       props.location && props.location.state
@@ -96,19 +96,16 @@ const SongPage = (props) => {
     .then(data => {
       console.log(data)
       const lyric = data[0].message.body.lyrics;
-      
-      console.log(lyric)
       setLyric(lyric.lyrics_body);
      
       const songName = data[1].message.body.track_list;
-      setSongTitle(
-                  songName &&
-                    songName.map((item) => {
-                      return idTrack === item.track.track_id
-                        ? item.track.track_name
-                        : null;
-                    })
-                );
+            songName &&
+              songName.map((item) => {
+                return idTrack === item.track.track_id
+                  ? setSongTitle(item.track.track_name)
+                  : null;
+              })
+                
     })
     .catch(error => console.log(error))
   };

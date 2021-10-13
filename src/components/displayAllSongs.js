@@ -34,11 +34,11 @@ const DisplayAllSongs = () => {
                       state: {
                         lyrics: song.words,
                         id: song._id,
-                        songName: song.songName,
+                        songTitle: song.songTitle,
                       },
                     }}
                   >
-                    {song.artistName} - {song.songName}
+                    {song.artistName} - {song.songTitle}
                   </Link>
                 </h2>
               </pre>

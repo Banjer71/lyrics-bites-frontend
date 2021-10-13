@@ -35,7 +35,7 @@ const ArtistCard = ({ track }) => {
             trackId: track.track_id,
             artistId: track.artist_id,
             artistName: track.artist_name,
-            songName: track.track_name,
+            songTitle: track.track_name,
           },
         }}
       >
