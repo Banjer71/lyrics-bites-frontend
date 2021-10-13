@@ -1,5 +1,5 @@
 
 [[redirects]]
-    from = "/ws/1.1/*"
+    from = "http://localhost:3000/ws/1.1/*"
     to = "https://api.musixmatch.com/:splat"
     status = 200
