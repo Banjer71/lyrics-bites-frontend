@@ -24,6 +24,6 @@
     status = 200
 
 [[redirects]]
-    from = "http://localhost:5000/*"
+    from = "/all/*"
     to = "https://lyrics-bites.herokuapp.com/:splat"
     status = 200
