@@ -22,3 +22,8 @@
     from = "/api/cover/"
     to = "/.netlify/functions/:splat"
     status = 200
+
+[[redirects]]
+    from = "http://localhost:5000/*"
+    to = "https://lyrics-bites.herokuapp.com/:splat"
+    status = 200
