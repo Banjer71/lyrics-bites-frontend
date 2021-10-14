@@ -1,5 +1,4 @@
 [build]
-    publish = ""
     functions = "netlify/functions/node-fetch"
 
 
@@ -15,6 +14,6 @@
     status = 200
 
 [[redirects]]
-    from = "/api/lyrcs/*"
-    to = "/.netlify/functions/node-fetch/"
+    from = "/api/lyrcs/"
+    to = "/.netlify/functions/:splat"
     status = 200

@@ -1,7 +1,7 @@
 const fetch = require('node-fetch')
 
 const handler = async function () {
-  const url = `https://api.musixmatch.com/:splat`
+  const url = `https://api.musixmatch.com/`
   try {
     const response = await fetch(url, {
       headers: { Accept: 'application/json' },
