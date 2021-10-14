@@ -17,3 +17,8 @@
     from = "/api/lyrcs/"
     to = "/.netlify/functions/:splat"
     status = 200
+
+[[redirects]]
+    from = "/api/cover/"
+    to = "/.netlify/functions/:splat"
+    status = 200
