@@ -13,7 +13,7 @@ const DisplayAllSongs = () => {
   }, []);
 
   const deleteAllSongs = () => {
-    fetch("/all", {
+    fetch("https://lyrics-bites.herokuapp.com/all", {
       method: "DELETE",
     }).then((res) => res.json());
     setDisplayAll([]);
