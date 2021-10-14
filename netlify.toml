@@ -1,1 +1,20 @@
+[build]
+    publish = "."
+    functions = "netlify/functions/node-fetch"
 
+
+[[redirects]]
+    from = "/api/lyrics/*"
+    to = "https://api.musixmatch.com/:splat"
+    status = 200
+
+
+[[redirects]]
+    from = "/api/cover/*"
+    to = "http://ws.audioscrobbler.com/:splat"
+    status = 200
+
+[[redirects]]
+    from = "/api/lyrcs/*"
+    to = "/.netlify/functions/node-fetch/"
+    status = 200

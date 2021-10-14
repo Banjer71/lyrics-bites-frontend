@@ -42,10 +42,10 @@ const SongPage = (props) => {
     }
 
     Promise.all([
-      fetch(`/ws/1.1/track.lyrics.get?track_id=${trackId}&apikey=${process.env.REACT_APP_API_KEY_MUSICMATCH}`),
-      fetch(`/ws/1.1/track.search?q_track=${songTrack}&apikey=${process.env.REACT_APP_API_KEY_MUSICMATCH}`),
-      fetch(`/ws/1.1/album.tracks.get?album_id=${idAlbum}&apikey=${process.env.REACT_APP_API_KEY_MUSICMATCH}`),
-      fetch(`/2.0/?method=album.search&album=${album}&api_key=${process.env.REACT_APP_API_KEY_LASTFM}&format=json`, { signal })
+      fetch(`/api/lyrics/ws/1.1/track.lyrics.get?track_id=${trackId}&apikey=${process.env.REACT_APP_API_KEY_MUSICMATCH}`),
+      fetch(`/api/lyrics/ws/1.1/track.search?q_track=${songTrack}&apikey=${process.env.REACT_APP_API_KEY_MUSICMATCH}`),
+      fetch(`/api/lyrics/ws/1.1/album.tracks.get?album_id=${idAlbum}&apikey=${process.env.REACT_APP_API_KEY_MUSICMATCH}`),
+      fetch(`/api/cover/2.0/?method=album.search&album=${album}&api_key=${process.env.REACT_APP_API_KEY_LASTFM}&format=json`, { signal })
     ])
     .then(res => Promise.all(res.map(res => res.json())))
     .then(data => {
@@ -91,8 +91,8 @@ const SongPage = (props) => {
     setUpdateState(...prevData);
 
     Promise.all([
-      fetch( `/ws/1.1/track.lyrics.get?track_id=${idTrack}&apikey=${process.env.REACT_APP_API_KEY_MUSICMATCH}`),
-      fetch(`/ws/1.1/album.tracks.get?album_id=${idAlbum}&apikey=${process.env.REACT_APP_API_KEY_MUSICMATCH}`)
+      fetch( `/api/lyrics/ws/1.1/track.lyrics.get?track_id=${idTrack}&apikey=${process.env.REACT_APP_API_KEY_MUSICMATCH}`),
+      fetch(`/api/lyrics/ws/1.1/album.tracks.get?album_id=${idAlbum}&apikey=${process.env.REACT_APP_API_KEY_MUSICMATCH}`)
     ])
     .then(res => Promise.all(res.map(res => res.json())))
     .then(data => {
