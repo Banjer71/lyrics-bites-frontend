@@ -5,7 +5,7 @@ const DisplayAllSongs = () => {
   const [displayAll, setDisplayAll] = useState();
 
   useEffect(() => {
-    fetch("/all")
+    fetch("https://lyrics-bites.herokuapp.com/all")
       .then((res) => res.json())
       .then((data) => {
         setDisplayAll(data);
