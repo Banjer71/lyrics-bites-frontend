@@ -8,7 +8,7 @@ const handler = async (event, context) => {
     "Access-Control-Allow-Headers": "Content-Type",
     "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
   };
-  const url = `https://lyrics-bites.herokuapp.com/`
+  const url = `http: https://lyrics-bites.herokuapp.com/`
   try {
     const response = await fetch(url, {
       headers,

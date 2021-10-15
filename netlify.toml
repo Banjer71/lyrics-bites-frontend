@@ -13,10 +13,6 @@
     to = "http://ws.audioscrobbler.com/:splat"
     status = 200
 
-[[redirects]]
-    from ="/save/"
-    to = "/.netlify/functions/:splat"
-    status = 200
 
 
 [[redirects]]
