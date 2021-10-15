@@ -26,3 +26,9 @@
     status = 200
 
 
+[[redirects]]
+  from = "/api"
+  to = "https://lyrics-bites.herokuapp.com/"
+  status = 200
+  force = true
+  headers = {X-From = "Netlify"}
