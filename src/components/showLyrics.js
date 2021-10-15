@@ -5,14 +5,14 @@ const ShowLyrics = (props) => {
   const { id, songTitle, lyrics } = props.location.state;
 
   const deleteSong = async () => {
-    await fetch(`/api/song/${id}`, {
+    await fetch(`https://lyrics-bites.herokuapp.com/api/song/${id}`, {
       method: "DELETE",
     }).then((res) => res.json());
   };
 
   const sendLyrics = () => {
     try {
-      fetch(`api/send_email/${lyrics}`)
+      fetch(`https://lyrics-bites.herokuapp.com/api/send_email/${lyrics}`)
         .then((res) => res.json())
         .then((data) => console.log(data));
     } catch (error) {
