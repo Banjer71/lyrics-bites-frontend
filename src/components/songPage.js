@@ -117,7 +117,7 @@ const SongPage = (props) => {
       ...updateState,
       words: lyric,
     };
-    await fetch(`/v.1/api/song`, {
+    await fetch(`/api/song`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
