@@ -3,23 +3,35 @@
 
 
 [[redirects]]
-    from = "/api/lyrics/*"
+    from = "/lyrics/*"
     to = "https://api.musixmatch.com/:splat"
     status = 200
 
 
 [[redirects]]
-    from = "/api/cover/*"
+    from = "/cover/*"
     to = "http://ws.audioscrobbler.com/:splat"
     status = 200
 
+
 [[redirects]]
-    from = "/api/lyrcs/"
+    from = "/lyrcs/"
     to = "/.netlify/functions/:splat"
     status = 200
 
 [[redirects]]
-    from = "/api/cover/"
+    from = "/cover/"
     to = "/.netlify/functions/:splat"
     status = 200
 
+
+[[redirects]]
+    from ="/api/"
+    to ="/.netlify/functions/:splat"
+    status = 200
+
+[[headers]]
+  # Define which paths this specific [[headers]] block will cover.
+  for = "/api/*"
+    [headers.values]
+    Access-Control-Allow-Origin = "*"
