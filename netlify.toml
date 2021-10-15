@@ -26,7 +26,7 @@
 
 
 [[redirects]]
-    from ="http:localhost:5000/api/"
+    from ="http://localhost:5000/api/"
     to ="/.netlify/functions/:splat"
     status = 200
 
