@@ -1,6 +1,8 @@
 const fetch = require('node-fetch')
 
-const handler = async function () {
+const handler = async (event, context) => {
+  console.log('event: ', event)
+  console.log('context: ', context)
   const headers = {
     "Access-Control-Allow-Origin": "*",
     "Access-Control-Allow-Headers": "Content-Type",
@@ -9,7 +11,7 @@ const handler = async function () {
   const url = `https://lyrics-bites.herokuapp.com/`
   try {
     const response = await fetch(url, {
-      headers: { Accept: headers },
+      headers,
     })
     if (!response.ok) {
       // NOT res.status >= 200 && res.status < 300

@@ -13,6 +13,10 @@
     to = "http://ws.audioscrobbler.com/:splat"
     status = 200
 
+[[redirects]]
+    from ="/v.1/"
+    to = "/.netlify/functions/:splat"
+
 
 [[redirects]]
     from = "/lyrcs/"
@@ -22,12 +26,6 @@
 [[redirects]]
     from = "/cover/"
     to = "/.netlify/functions/:splat"
-    status = 200
-
-
-[[redirects]]
-    from ="http://localhost:5000/api/"
-    to ="/.netlify/functions/:splat"
     status = 200
 
 
