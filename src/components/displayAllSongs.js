@@ -5,7 +5,7 @@ const DisplayAllSongs = () => {
   const [displayAll, setDisplayAll] = useState();
 
   useEffect(() => {
-    fetch("/api/all")
+    fetch("/v.1/api/all")
       .then((res) => res.json())
       .then((data) => {
         setDisplayAll(data);
@@ -13,7 +13,7 @@ const DisplayAllSongs = () => {
   }, []);
 
   const deleteAllSongs = () => {
-    fetch("/api/all", {
+    fetch("/v.1/api/all", {
       method: "DELETE",
     }).then((res) => res.json());
     setDisplayAll([]);

@@ -5,13 +5,13 @@ const ShowLyrics = (props) => {
   const { id, songTitle, lyrics } = props.location.state;
 
   const deleteSong = async () => {
-    await fetch(`/api/song/${id}`, {
+    await fetch(`/v.1/api/song/${id}`, {
       method: "DELETE",
     }).then((res) => res.json());
   };
 
   const sendLyrics = async () => {
-    await fetch(`/api/send_email/${lyrics}`)
+    await fetch(`/v.1/api/send_email/${lyrics}`)
         .then((res) => res.json())
         .then((data) => console.log(data))
     .catch(err => console.log(err))
