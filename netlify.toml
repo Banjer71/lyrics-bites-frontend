@@ -27,13 +27,10 @@
 
 
 [[redirects]]
-  from = "/api"
-  to = "https://lyrics-bites-dev.herokuapp.com/"
+  from = "/api/*"
+  to = "https://lyrics-bites-dev.herokuapp.com/:splat"
   status = 200
   force = true
-  headers = {X-From = "Netlify"}
+  
 
-  [[headers]]
-    for = "/*"
-        [headers.values]
-            Access-Control-Allow-Origin = "*"
+ 

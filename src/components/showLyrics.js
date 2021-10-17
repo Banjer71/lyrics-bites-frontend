@@ -11,13 +11,10 @@ const ShowLyrics = (props) => {
   };
 
   const sendLyrics = async () => {
-    try {
-      await fetch(`https://lyrics-bites-dev.herokuapp.com/api/send_email/${lyrics}`)
+    await fetch(`/api/send_email/${lyrics}`)
         .then((res) => res.json())
-        .then((data) => console.log(data));
-    } catch (error) {
-      console.log(error);
-    }
+        .then((data) => console.log(data))
+    .catch(err => console.log(err))
   };
 
   return (
