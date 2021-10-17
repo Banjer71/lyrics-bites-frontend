@@ -117,7 +117,7 @@ const SongPage = (props) => {
       ...updateState,
       words: lyric,
     };
-    await fetch(`https://lyrics-bites-dev.herokuapp.com/api/song`, {
+    await fetch(`/api/song`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

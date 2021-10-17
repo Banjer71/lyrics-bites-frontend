@@ -5,7 +5,7 @@ const ShowLyrics = (props) => {
   const { id, songTitle, lyrics } = props.location.state;
 
   const deleteSong = async () => {
-    await fetch(`https://lyrics-bites-dev.herokuapp.com/api/song/${id}`, {
+    await fetch(`/api/song/${id}`, {
       method: "DELETE",
     }).then((res) => res.json());
   };

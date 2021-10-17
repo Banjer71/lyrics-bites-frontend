@@ -5,7 +5,7 @@ const DisplayAllSongs = () => {
   const [displayAll, setDisplayAll] = useState();
 
   useEffect(() => {
-    fetch("https://lyrics-bites-dev.herokuapp.com/api/all")
+    fetch("/api/all")
       .then((res) => res.json())
       .then((data) => {
         setDisplayAll(data);
@@ -13,7 +13,7 @@ const DisplayAllSongs = () => {
   }, []);
 
   const deleteAllSongs = () => {
-    fetch("https://lyrics-bites-dev.herokuapp.com/api/all", {
+    fetch("/api/all", {
       method: "DELETE",
     }).then((res) => res.json());
     setDisplayAll([]);
