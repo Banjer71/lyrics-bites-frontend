@@ -1,0 +1,32 @@
+[build]
+    functions = "netlify/functions/node-fetch"
+
+
+[[redirects]]
+    from = "/lyrics/*"
+    to = "https://api.musixmatch.com/:splat"
+    status = 200
+
+
+[[redirects]]
+    from = "/cover/*"
+    to = "http://ws.audioscrobbler.com/:splat"
+    status = 200
+
+
+
+[[redirects]]
+    from = "/lyrcs/"
+    to = "/.netlify/functions/:splat"
+    status = 200
+
+[[redirects]]
+    from = "/cover/"
+    to = "/.netlify/functions/:splat"
+    status = 200
+
+
+
+  
+
+ 

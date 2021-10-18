@@ -14,7 +14,7 @@ const ArtistCard = ({ track }) => {
     const lastfm2 = `/?method=album.search&album=${name}&api_key=${apy_key_lastfm}&format=json`;
 
     const fetchCover = async () => {
-      const response = await fetch(`/2.0${lastfm2}`);
+      const response = await fetch(`/cover/2.0${lastfm2}`);
       const covers = await response.json();
       const albumCover = covers.results.albummatches.album[0].image[3]["#text"];
       setCover(albumCover);
@@ -35,7 +35,7 @@ const ArtistCard = ({ track }) => {
             trackId: track.track_id,
             artistId: track.artist_id,
             artistName: track.artist_name,
-            songName: track.track_name,
+            songTitle: track.track_name,
           },
         }}
       >
