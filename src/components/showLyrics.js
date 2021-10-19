@@ -11,10 +11,21 @@ const ShowLyrics = (props) => {
   };
 
   const sendLyrics = async () => {
-    await fetch(`/v.1/api/send_email/${lyrics}`)
-        .then((res) => res.json())
-        .then((data) => console.log(data))
-    .catch(err => console.log(err))
+    const mailToSEnd = {
+      songTitle,
+      lyrics,
+    };
+
+    await fetch(`/v.1/api/send_email`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(mailToSEnd),
+    })
+      .then((res) => res.json())
+      .then((data) => console.log(data))
+      .catch((err) => console.log(err));
   };
 
   return (

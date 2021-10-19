@@ -98,6 +98,7 @@ const SongPage = (props) => {
     .then(data => {
       console.log(data)
       const lyric = data[0].message.body.lyrics;
+      console.log(lyric)
       setLyric(lyric.lyrics_body);
      
       const songName = data[1].message.body.track_list;
@@ -112,7 +113,8 @@ const SongPage = (props) => {
     .catch(error => console.log(error))
   };
 
-  const sendSongViaEmail = async () => {
+  const saveSong = async () => {
+     
     const dataToSave = {
       ...updateState,
       words: lyric,
@@ -144,7 +146,7 @@ const SongPage = (props) => {
               : copyRight}
           </pre>
           {/* <Link to="/DisplayAllSongs"> */}
-          <button onClick={sendSongViaEmail} className="btn-get-song">
+          <button onClick={saveSong} className="btn-get-song">
             Save this song
           </button>
           {/* </Link> */}
