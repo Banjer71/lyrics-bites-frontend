@@ -2,6 +2,7 @@
 @import url('/src/css/searchbar.css');
 @import url('/src/css/artistcard.css');
 @import url('/src/css/songpage.css');
+@import url('/src/css/modal.css');
 
 * {
 	margin: 0;
