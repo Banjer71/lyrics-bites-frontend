@@ -30,7 +30,7 @@ const DisplayAllSongs = () => {
                 <h2>
                   <Link
                     to={{
-                      pathname: "/ShowLyrics",
+                      pathname: `/showLyrics/${song._id}`,
                       state: {
                         lyrics: song.words,
                         id: song._id,

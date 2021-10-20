@@ -1,14 +1,28 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { Link, useParams } from "react-router-dom";
 import Modal from "./modal";
 
 const ShowLyrics = (props) => {
   const [isOpen, setIsOpen] = useState(false);
   const [emailStatus, setEmailStatus] = useState();
-  const { id, songTitle, lyrics } = props.location.state;
+  const [lyrics, setLyrics] = useState();
+  const [artist, setArtist] = useState();
+  const [songTitle, setSongTitle] = useState();
+
+  const { _id } = useParams();
+
+  useEffect(() => {
+    fetch(`/v.1/api/song/${_id}`)
+      .then((res) => res.json())
+      .then((data) => {
+        setLyrics(data.words);
+        setArtist(data.artistName);
+        setSongTitle(data.songTitle);
+      });
+  }, [_id]);
 
   const deleteSong = async () => {
-    await fetch(`/v.1/api/song/${id}`, {
+    await fetch(`/v.1/api/song/${_id}`, {
       method: "DELETE",
     }).then((res) => res.json());
   };
@@ -17,6 +31,7 @@ const ShowLyrics = (props) => {
     const mailToSEnd = {
       songTitle,
       lyrics,
+      artist,
     };
     try {
       await fetch(`/v.1/api/send_email`, {
@@ -31,9 +46,10 @@ const ShowLyrics = (props) => {
           console.log(data);
           setIsOpen(true);
           setEmailStatus(data.status);
-        })
-        .catch((err) => console.log(err));
-    } catch (error) {}
+        });
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -45,9 +61,10 @@ const ShowLyrics = (props) => {
         >
           {songTitle}
         </h2>
-        <pre key={id}>{lyrics}</pre>
+        <h3>by {artist}</h3>
+        <pre key={_id}>{lyrics}</pre>
         <button onClick={sendLyrics}>Send song via email</button>
-        <Link to="/DisplayAllSongs">
+        <Link to="/displayAllSongs">
           <button onClick={deleteSong}>Delete this song</button>
         </Link>
       </div>
