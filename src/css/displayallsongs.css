@@ -1,0 +1,19 @@
+.display-all-songs-wrapper {
+  outline: 1px dashed green;
+}
+
+.display-all-songs-wrapper h1 {
+  font-size: 1.2rem;
+}
+
+.display-all-songs {
+  display: grid;
+  font-size: 0.6rem;
+  padding: 1rem;
+}
+
+.song {
+  padding: 0.3rem;
+  border: 1px solid grey;
+  border-radius: 4px;
+}
