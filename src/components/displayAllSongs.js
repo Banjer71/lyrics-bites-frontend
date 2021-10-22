@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import CheckBox from "./checkBox";
 
-const DisplayAllSongs = () => {
+const DisplayAllSongs = (props) => {
   const [displayAll, setDisplayAll] = useState();
   const [ids, setIds] = useState([]);
 
@@ -10,6 +10,7 @@ const DisplayAllSongs = () => {
     fetch("/v.1/api/all")
       .then((res) => res.json())
       .then((data) => {
+        console.log("from the list all songs: ", data);
         setDisplayAll(data);
       });
   }, []);
@@ -28,8 +29,8 @@ const DisplayAllSongs = () => {
       console.log(newIds);
       setIds(newIds);
     } else {
-      const newIds = [...ids];
-      newIds.push(selectedId);
+      const newIds = [...ids, selectedId];
+      // newIds.push(selectedId);
       console.log("to be deleted: ", newIds);
       setIds(newIds);
     }
@@ -44,9 +45,12 @@ const DisplayAllSongs = () => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(ids),
-    }).then((res) => res.json());
-
-    setDisplayAll(remainingSong);
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        setDisplayAll(remainingSong);
+      });
   };
 
   return (
@@ -68,7 +72,7 @@ const DisplayAllSongs = () => {
                       },
                     }}
                   >
-                    {song.artistName} - {song.songTitle} {song._id}
+                    {song.artistName} - {song.songTitle}
                   </Link>
                 </h2>
                 <label>
