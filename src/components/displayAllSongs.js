@@ -1,19 +1,28 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import CheckBox from "./checkBox";
+import SongLabel from "./songLabel";
+import LabelSong from "./labelSong";
 
-const DisplayAllSongs = (props) => {
+const DisplayAllSongs = () => {
+  let history = useHistory();
+  let delId = history.location.state;
   const [displayAll, setDisplayAll] = useState();
   const [ids, setIds] = useState([]);
 
   useEffect(() => {
-    fetch("/v.1/api/all")
-      .then((res) => res.json())
-      .then((data) => {
-        console.log("from the list all songs: ", data);
-        setDisplayAll(data);
-      });
-  }, []);
+    console.log("da dentro useeffetc: ", delId);
+    if (delId) {
+      setDisplayAll(delId);
+    } else {
+      fetch("/v.1/api/all")
+        .then((res) => res.json())
+        .then((data) => {
+          console.log("from the list all songs: ", data);
+          setDisplayAll(data);
+        });
+    }
+  }, [delId]);
 
   const deleteAllSongs = () => {
     fetch("/v.1/api/all", {
@@ -26,11 +35,9 @@ const DisplayAllSongs = (props) => {
     const selectedId = e.target.value;
     if (ids.includes(selectedId)) {
       const newIds = ids.filter((id) => id !== selectedId);
-      console.log(newIds);
       setIds(newIds);
     } else {
       const newIds = [...ids, selectedId];
-      // newIds.push(selectedId);
       console.log("to be deleted: ", newIds);
       setIds(newIds);
     }
@@ -60,30 +67,15 @@ const DisplayAllSongs = (props) => {
         {displayAll && displayAll.length !== 0 ? (
           displayAll.map((song) => {
             return (
-              <div className="song" key={song._id}>
-                <h2>
-                  <Link
-                    to={{
-                      pathname: `/showLyrics/${song._id}`,
-                      state: {
-                        lyrics: song.words,
-                        id: song._id,
-                        songTitle: song.songTitle,
-                      },
-                    }}
-                  >
-                    {song.artistName} - {song.songTitle}
-                  </Link>
-                </h2>
-                <label>
-                  <CheckBox
-                    value={song._id}
-                    onChange={selectSong}
-                    checked={ids.includes(song._id) ? true : false}
-                  />
-                  delete
-                </label>
-              </div>
+              <LabelSong key={song._id}>
+                <SongLabel key={song._id} song={song} displayAll={displayAll} />
+                <CheckBox
+                  label="Delete"
+                  value={song._id}
+                  onChange={selectSong}
+                  checked={ids.includes(song._id) ? true : false}
+                />
+              </LabelSong>
             );
           })
         ) : (

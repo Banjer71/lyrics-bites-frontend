@@ -4,6 +4,7 @@ import defImage from "../imageDef.png";
 import "../css/songpage.css";
 
 const SongPage = (props) => {
+  console.log("props songpage: ", props);
   const [lyric, setLyric] = useState("");
   const [copyRight, setCopyright] = useState("null");
   const [artist, setArtist] = useState("");
@@ -29,9 +30,7 @@ const SongPage = (props) => {
         ? props.location.state.album_id
         : "";
     const album =
-      props.location && props.location.state 
-        ? props.location.state.album 
-        : "";
+      props.location && props.location.state ? props.location.state.album : "";
 
     if (!trackId && !songTrack && idAlbum) {
       return;
@@ -42,39 +41,47 @@ const SongPage = (props) => {
     }
 
     Promise.all([
-      fetch(`/lyrics/ws/1.1/track.lyrics.get?track_id=${trackId}&apikey=${process.env.REACT_APP_API_KEY_MUSICMATCH}`),
-      fetch(`/lyrics/ws/1.1/track.search?q_track=${songTrack}&apikey=${process.env.REACT_APP_API_KEY_MUSICMATCH}`),
-      fetch(`/lyrics/ws/1.1/album.tracks.get?album_id=${idAlbum}&apikey=${process.env.REACT_APP_API_KEY_MUSICMATCH}`),
-      fetch(`/cover/2.0/?method=album.search&album=${album}&api_key=${process.env.REACT_APP_API_KEY_LASTFM}&format=json`, { signal })
+      fetch(
+        `/lyrics/ws/1.1/track.lyrics.get?track_id=${trackId}&apikey=${process.env.REACT_APP_API_KEY_MUSICMATCH}`
+      ),
+      fetch(
+        `/lyrics/ws/1.1/track.search?q_track=${songTrack}&apikey=${process.env.REACT_APP_API_KEY_MUSICMATCH}`
+      ),
+      fetch(
+        `/lyrics/ws/1.1/album.tracks.get?album_id=${idAlbum}&apikey=${process.env.REACT_APP_API_KEY_MUSICMATCH}`
+      ),
+      fetch(
+        `/cover/2.0/?method=album.search&album=${album}&api_key=${process.env.REACT_APP_API_KEY_LASTFM}&format=json`,
+        { signal }
+      ),
     ])
-    .then(res => Promise.all(res.map(res => res.json())))
-    .then(data => {
-      const lyrics = data[0].message.body.lyrics;
-      const songTitle = data[1].message.body.track_list;
-      const albumTracksList = data[2].message.body.track_list;
-      const coverAlbum = data[3].results.albummatches.album[0];
+      .then((res) => Promise.all(res.map((res) => res.json())))
+      .then((data) => {
+        const lyrics = data[0].message.body.lyrics;
+        const songTitle = data[1].message.body.track_list;
+        const albumTracksList = data[2].message.body.track_list;
+        const coverAlbum = data[3].results.albummatches.album[0];
         if (typeof lyrics !== "undefined") {
           setLyric(lyrics.lyrics_body);
           setCopyright(lyrics.lyrics_copyright);
         } else {
           return;
         }
-      setSongTitle(songTitle[0].track.track_name);
-      setAlbumId(albumTracksList);
-            if (typeof coverAlbum !== "undefined") {
+        setSongTitle(songTitle[0].track.track_name);
+        setAlbumId(albumTracksList);
+        if (typeof coverAlbum !== "undefined") {
           setCover(coverAlbum.image[3]["#text"]);
           setArtist(coverAlbum.artist);
           setAlbumTitle(coverAlbum.name);
         } else {
           setCover(defImage);
         }
-    })
-    .catch(err => console.log(err));
+      })
+      .catch((err) => console.log(err));
 
-      return function cleanUp() {
+    return function cleanUp() {
       abortControlledApi.abort();
     };
-    
   }, [props.location]);
 
   const getAlbumTracks = (idTrack, idAlbum, ...props) => {
@@ -91,30 +98,33 @@ const SongPage = (props) => {
     setUpdateState(...prevData);
 
     Promise.all([
-      fetch(`lyrics/ws/1.1/track.lyrics.get?track_id=${idTrack}&apikey=${process.env.REACT_APP_API_KEY_MUSICMATCH}`),
-      fetch(`lyrics/ws/1.1/album.tracks.get?album_id=${idAlbum}&apikey=${process.env.REACT_APP_API_KEY_MUSICMATCH}`)
+      fetch(
+        `lyrics/ws/1.1/track.lyrics.get?track_id=${idTrack}&apikey=${process.env.REACT_APP_API_KEY_MUSICMATCH}`
+      ),
+      fetch(
+        `lyrics/ws/1.1/album.tracks.get?album_id=${idAlbum}&apikey=${process.env.REACT_APP_API_KEY_MUSICMATCH}`
+      ),
     ])
-    .then(res => Promise.all(res.map(res => res.json())))
-    .then(data => {
-      console.log(data)
-      const lyric = data[0].message.body.lyrics;
-      console.log(lyric)
-      setLyric(lyric.lyrics_body);
-     
-      const songName = data[1].message.body.track_list;
-            songName &&
-              songName.map((item) => {
-                return idTrack === item.track.track_id
-                  ? setSongTitle(item.track.track_name)
-                  : null;
-              })
-                
-    })
-    .catch(error => console.log(error))
+      .then((res) => Promise.all(res.map((res) => res.json())))
+      .then((data) => {
+        console.log(data);
+        const lyric = data[0].message.body.lyrics;
+        console.log(lyric);
+        setLyric(lyric.lyrics_body);
+
+        const songName = data[1].message.body.track_list;
+        songName &&
+          songName.map((item) => {
+            return idTrack === item.track.track_id
+              ? setSongTitle(item.track.track_name)
+              : null;
+          });
+      })
+      .catch((error) => console.log(error));
   };
 
   const saveSong = async () => {
-     
+    console.log(updateState);
     const dataToSave = {
       ...updateState,
       words: lyric,
@@ -145,11 +155,10 @@ const SongPage = (props) => {
               ? "no lyrics on the database"
               : copyRight}
           </pre>
-          {/* <Link to="/DisplayAllSongs"> */}
+
           <button onClick={saveSong} className="btn-get-song">
             Save this song
           </button>
-          {/* </Link> */}
 
           <Link to="/">
             <button>Back to the HomePage</button>

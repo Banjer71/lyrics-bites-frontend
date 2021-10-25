@@ -8,12 +8,7 @@
 
 .display-all-songs {
   display: grid;
+  grid-gap: 0.5rem;
   font-size: 0.6rem;
   padding: 1rem;
-}
-
-.song {
-  padding: 0.3rem;
-  border: 1px solid grey;
-  border-radius: 4px;
 }

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useParams, useHistory } from "react-router-dom";
 import Modal from "./modal";
 
-const ShowLyrics = (props) => {
+const ShowLyrics = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [emailStatus, setEmailStatus] = useState();
   const [lyrics, setLyrics] = useState();
@@ -11,6 +11,8 @@ const ShowLyrics = (props) => {
 
   const { _id } = useParams();
   let history = useHistory();
+
+  let data = Object.values(history.location.state);
 
   useEffect(() => {
     fetch(`/v.1/api/song/${_id}`)
@@ -23,13 +25,14 @@ const ShowLyrics = (props) => {
   }, [_id]);
 
   const deleteSong = () => {
+    const car = data[3].filter((item) => item._id !== _id);
+    history.push("/displayAllSongs", car);
     fetch(`/v.1/api/song/${_id}`, {
       method: "DELETE",
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
-        history.push("/displayAllSongs");
+        console.log("dal server", data);
       })
       .catch((e) => console.log(e));
   };
