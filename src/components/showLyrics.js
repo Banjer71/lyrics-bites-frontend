@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { useParams, useHistory } from "react-router-dom";
+import { useParams, useHistory, useLocation } from "react-router-dom";
 import Modal from "./modal";
 
-const ShowLyrics = () => {
+const ShowLyrics = (props) => {
   const [isOpen, setIsOpen] = useState(false);
   const [emailStatus, setEmailStatus] = useState();
   const [lyrics, setLyrics] = useState();
@@ -11,13 +11,22 @@ const ShowLyrics = () => {
 
   const { _id } = useParams();
   let history = useHistory();
+  const { search } = useLocation();
 
-  let data = Object.values(history.location.state);
+  const searchParams = new URLSearchParams(search);
+  const name = searchParams.get("title");
+  console.log("name: ", name);
+
+  // let data = Object.values(props.history.location.state);
+  // console.log("data: ", data);
 
   useEffect(() => {
     fetch(`/v.1/api/song/${_id}`)
       .then((res) => res.json())
       .then((data) => {
+        console.log("data: ", data.words);
+        let newWord = data.words.split(/\n\n/).map((verse) => verse.split(","));
+        console.log(newWord);
         setLyrics(data.words);
         setArtist(data.artistName);
         setSongTitle(data.songTitle);
@@ -25,8 +34,8 @@ const ShowLyrics = () => {
   }, [_id]);
 
   const deleteSong = () => {
-    const car = data[3].filter((item) => item._id !== _id);
-    history.push("/displayAllSongs", car);
+    // const car = data[3].filter((item) => item._id !== _id);
+    history.push("/displayAllSongs");
     fetch(`/v.1/api/song/${_id}`, {
       method: "DELETE",
     })

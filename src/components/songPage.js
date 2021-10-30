@@ -124,7 +124,6 @@ const SongPage = (props) => {
   };
 
   const saveSong = async () => {
-    console.log(updateState);
     const dataToSave = {
       ...updateState,
       words: lyric,

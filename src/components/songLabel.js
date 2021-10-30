@@ -11,6 +11,7 @@ const SongLabel = ({ song, children, displayAll }) => {
         <Link
           to={{
             pathname: `/showLyrics/${song._id}`,
+            search: `?title=${song.songTitle}`,
             state: {
               lyrics: song.words,
               id: song._id,

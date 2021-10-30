@@ -45,7 +45,6 @@ const DisplayAllSongs = () => {
 
   const removeSongsById = () => {
     const remainingSong = displayAll.filter((song) => !ids.includes(song._id));
-    console.log(ids);
     fetch(`/v.1/api/delete/`, {
       method: "POST",
       headers: {
@@ -56,6 +55,7 @@ const DisplayAllSongs = () => {
       .then((res) => res.json())
       .then((data) => {
         console.log(data);
+
         setDisplayAll(remainingSong);
       });
   };

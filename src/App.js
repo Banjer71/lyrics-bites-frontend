@@ -9,15 +9,16 @@ import "./index.css";
 function App() {
   return (
     <div className="App">
-      <Router>
-        <Navbar />
-        <Switch>
-          <Route path="/" exact component={SearchBar} />
-          <Route path="/songPage" exact component={SongPage} />
-          <Route path="/displayAllSongs" exact component={DisplayAllSongs} />
-          <Route path="/showLyrics/:_id" children={<ShowLyrics />} />
-        </Switch>
-      </Router>
+      <Navbar />
+      <Switch>
+        <Route path="/" exact component={SearchBar} />
+        <Route path="/songPage" exact component={SongPage} />
+        <Route path="/displayAllSongs" exact component={DisplayAllSongs} />
+        <Route
+          path="/showLyrics/:_id"
+          children={(props) => <ShowLyrics {...props} />}
+        />
+      </Switch>
     </div>
   );
 }

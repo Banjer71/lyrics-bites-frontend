@@ -1,20 +1,19 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import "../css/navbar.css";
 
 const Navbar = () => {
   return (
     <div>
-      <ul style={{ display: "flex" }}>
+      <ul className="navbar">
         <Link to="/">
-          <li style={{ color: "red", fontSize: "18px", margin: "12px" }}>
-            Home
-          </li>
+          <li>Home</li>
         </Link>
         <Link to="/DisplayAllSongs">
-          <li style={{ color: "red", fontSize: "18px", margin: "12px" }}>
-            My List
-          </li>
+          <li>My List</li>
         </Link>
+        <li>SignUp</li>
+        <li>Login</li>
       </ul>
     </div>
   );
