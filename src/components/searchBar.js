@@ -22,7 +22,6 @@ const SearchBar = () => {
       const fetchData = await fetch(`/lyrics/ws/1.1/${restUrl}`);
       const data = await fetchData.json();
       const info = data.message.body.track_list;
-      console.log(info);
       setTune(info);
       setIsLoading(false);
       setParamToSerach("");

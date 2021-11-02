@@ -1,10 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
 import defImage from "../imageDef.png";
+import Button from "../components/reusable/buttons/button";
+import ButtonSpinner from "../components/reusable/btn-spinner/btn-spinner";
 import "../css/songpage.css";
+import Toast from "./reusable/toast-message/toast";
+import { ToastContext } from "./context/toastMessage";
 
 const SongPage = (props) => {
-  console.log("props songpage: ", props);
   const [lyric, setLyric] = useState("");
   const [copyRight, setCopyright] = useState("null");
   const [artist, setArtist] = useState("");
@@ -13,6 +16,8 @@ const SongPage = (props) => {
   const [songTitle, setSongTitle] = useState("");
   const [albumId, setAlbumId] = useState("");
   const [updateState, setUpdateState] = useState(props.location.state);
+  const [isLoading, setIsLoading] = useState(false);
+  const { dispatch } = useContext(ToastContext);
 
   useEffect(() => {
     const abortControlledApi = new AbortController();
@@ -124,6 +129,7 @@ const SongPage = (props) => {
   };
 
   const saveSong = async () => {
+    setIsLoading(true);
     const dataToSave = {
       ...updateState,
       words: lyric,
@@ -136,7 +142,38 @@ const SongPage = (props) => {
       body: JSON.stringify(dataToSave),
     })
       .then((res) => res.json())
-      .then((data) => console.log(data))
+      .then((data) => {
+        console.log(data);
+        setTimeout(() => {
+          setIsLoading(false);
+        }, 400);
+        switch (data.type) {
+          case "SUCCESS":
+            return dispatch({
+              type: "ADD_NOTIFICATION",
+              payload: {
+                id: data.id,
+                type: data.type,
+                title: "Success",
+                message: data.message,
+                icon: String.fromCharCode(10004),
+              },
+            });
+          case "EXIST":
+            return dispatch({
+              type: "ADD_NOTIFICATION",
+              payload: {
+                id: data.id,
+                type: data.type,
+                title: "Exist",
+                message: data.message,
+                icon: String.fromCharCode(9940),
+              },
+            });
+          default:
+            return;
+        }
+      })
       .catch((error) => {
         console.error(error);
       });
@@ -155,14 +192,15 @@ const SongPage = (props) => {
               : copyRight}
           </pre>
 
-          <button onClick={saveSong} className="btn-get-song">
-            Save this song
-          </button>
+          <Button onClick={saveSong} className="btn-get-song">
+            {isLoading ? <ButtonSpinner /> : "Save this song"}
+          </Button>
 
           <Link to="/">
-            <button>Back to the HomePage</button>
+            <Button>Back to the HomePage</Button>
           </Link>
         </div>
+        <Toast position="top-right" autoClose={2000} />
         <div className="cover-art">
           <img src={cover} alt="album cover" />
           <p className="cover-art-info">{artist}</p>

@@ -11,14 +11,10 @@ const ShowLyrics = (props) => {
 
   const { _id } = useParams();
   let history = useHistory();
-  const { search } = useLocation();
+  // const { search } = useLocation();
 
-  const searchParams = new URLSearchParams(search);
-  const name = searchParams.get("title");
-  console.log("name: ", name);
-
-  // let data = Object.values(props.history.location.state);
-  // console.log("data: ", data);
+  // const searchParams = new URLSearchParams(search);
+  // const name = searchParams.get("title");
 
   useEffect(() => {
     fetch(`/v.1/api/song/${_id}`)
@@ -35,13 +31,13 @@ const ShowLyrics = (props) => {
 
   const deleteSong = () => {
     // const car = data[3].filter((item) => item._id !== _id);
-    history.push("/displayAllSongs");
+
     fetch(`/v.1/api/song/${_id}`, {
       method: "DELETE",
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log("dal server", data);
+        history.push("/displayAllSongs");
       })
       .catch((e) => console.log(e));
   };
@@ -62,7 +58,6 @@ const ShowLyrics = (props) => {
       })
         .then((res) => res.json())
         .then(async (data) => {
-          console.log(data);
           setIsOpen(true);
           setEmailStatus(data.status);
         });

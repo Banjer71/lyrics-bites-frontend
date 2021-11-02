@@ -18,7 +18,6 @@ const DisplayAllSongs = () => {
       fetch("/v.1/api/all")
         .then((res) => res.json())
         .then((data) => {
-          console.log("from the list all songs: ", data);
           setDisplayAll(data);
         });
     }
@@ -38,7 +37,6 @@ const DisplayAllSongs = () => {
       setIds(newIds);
     } else {
       const newIds = [...ids, selectedId];
-      console.log("to be deleted: ", newIds);
       setIds(newIds);
     }
   };
@@ -55,7 +53,6 @@ const DisplayAllSongs = () => {
       .then((res) => res.json())
       .then((data) => {
         console.log(data);
-
         setDisplayAll(remainingSong);
       });
   };
