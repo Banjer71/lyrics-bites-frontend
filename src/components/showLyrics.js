@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link, useParams } from "react-router-dom";
+import { useParams, useHistory, useLocation } from "react-router-dom";
 import Modal from "./modal";
 
 const ShowLyrics = (props) => {
@@ -10,24 +10,39 @@ const ShowLyrics = (props) => {
   const [songTitle, setSongTitle] = useState();
 
   const { _id } = useParams();
+  let history = useHistory();
+  // const { search } = useLocation();
+
+  // const searchParams = new URLSearchParams(search);
+  // const name = searchParams.get("title");
 
   useEffect(() => {
     fetch(`/v.1/api/song/${_id}`)
       .then((res) => res.json())
       .then((data) => {
+        console.log("data: ", data.words);
+        let newWord = data.words.split(/\n\n/).map((verse) => verse.split(","));
+        console.log(newWord);
         setLyrics(data.words);
         setArtist(data.artistName);
         setSongTitle(data.songTitle);
       });
   }, [_id]);
 
-  const deleteSong = async () => {
-    await fetch(`/v.1/api/song/${_id}`, {
+  const deleteSong = () => {
+    // const car = data[3].filter((item) => item._id !== _id);
+
+    fetch(`/v.1/api/song/${_id}`, {
       method: "DELETE",
-    }).then((res) => res.json());
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        history.push("/displayAllSongs");
+      })
+      .catch((e) => console.log(e));
   };
 
-  const sendLyrics = async () => {
+  async function sendLyrics() {
     const mailToSEnd = {
       songTitle,
       lyrics,
@@ -43,14 +58,13 @@ const ShowLyrics = (props) => {
       })
         .then((res) => res.json())
         .then(async (data) => {
-          console.log(data);
           setIsOpen(true);
           setEmailStatus(data.status);
         });
     } catch (error) {
       console.log(error);
     }
-  };
+  }
 
   return (
     <>
@@ -64,9 +78,7 @@ const ShowLyrics = (props) => {
         <h3>by {artist}</h3>
         <pre key={_id}>{lyrics}</pre>
         <button onClick={sendLyrics}>Send song via email</button>
-        <Link to="/displayAllSongs">
-          <button onClick={deleteSong}>Delete this song</button>
-        </Link>
+        <button onClick={deleteSong}>Delete this song</button>
       </div>
       <Modal open={isOpen} OnClose={() => setIsOpen(false)}>
         {emailStatus}

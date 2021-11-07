@@ -1,0 +1,16 @@
+.checkbox {
+  font-family: "Courier New", Courier, monospace;
+  color: black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 0.4rem;
+}
+
+.checkbox input {
+  margin: 0 10px;
+}
+
+input[type="checkbox"] {
+  transform: scale(1.5);
+}

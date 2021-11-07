@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import ArtistCard from "./artistCard";
 import Header from "./header";
 import Loader from "./loader";
+import Input from "./reusable/input";
+import Button from "./reusable/buttons/button";
 import "../css/searchbar.css";
 
 const SearchBar = () => {
@@ -20,7 +22,6 @@ const SearchBar = () => {
       const fetchData = await fetch(`/lyrics/ws/1.1/${restUrl}`);
       const data = await fetchData.json();
       const info = data.message.body.track_list;
-      console.log(info)
       setTune(info);
       setIsLoading(false);
       setParamToSerach("");
@@ -54,7 +55,7 @@ const SearchBar = () => {
             <option value="q_track">By Song</option>
             <option value="q_lyrics">By Word</option>
           </select>
-          <input
+          <Input
             type="text"
             name="paramToSearch"
             autoComplete="on"
@@ -62,7 +63,9 @@ const SearchBar = () => {
             value={paramToSearch}
             onChange={handleChange}
           />
-          <button type="submit">Get Songs</button>
+          <Button type="submit" disabled={!paramToSearch}>
+            Get Songs
+          </Button>
         </form>
       </div>
       <div className="grid track">

@@ -1,0 +1,13 @@
+.navbar {
+  display: flex;
+  margin: 0 15px;
+}
+
+.navbar li {
+  color: red;
+  padding: 4px;
+}
+
+.navbar li:nth-child(3) {
+  margin-left: auto;
+}

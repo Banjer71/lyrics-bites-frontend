@@ -1,0 +1,7 @@
+.label {
+  border: 1px solid grey;
+  border-radius: 4px;
+  display: flex;
+  font-size: 1rem;
+  box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+}
