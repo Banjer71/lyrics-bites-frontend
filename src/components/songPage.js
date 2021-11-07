@@ -6,6 +6,7 @@ import ButtonSpinner from "../components/reusable/btn-spinner/btn-spinner";
 import "../css/songpage.css";
 import Toast from "./reusable/toast-message/toast";
 import { ToastContext } from "./context/toastMessage";
+import SideBar from "./sidebar/sidebar";
 
 const SongPage = (props) => {
   const [lyric, setLyric] = useState("");
@@ -201,30 +202,13 @@ const SongPage = (props) => {
           </Link>
         </div>
         <Toast position="top-right" autoClose={2000} />
-        <div className="cover-art">
-          <img src={cover} alt="album cover" />
-          <p className="cover-art-info">{artist}</p>
-          <p className="cover-art-info">{albumTitle}</p>
-          <ul className="record-tracks">
-            {albumId &&
-              albumId.map((song) => {
-                return (
-                  <li
-                    key={song.track.track_id}
-                    onClick={() =>
-                      getAlbumTracks(
-                        song.track.track_id,
-                        song.track.album_id,
-                        song.track
-                      )
-                    }
-                  >
-                    <a href="#top">{song.track.track_name}</a>
-                  </li>
-                );
-              })}
-          </ul>
-        </div>
+        <SideBar
+          artist={artist}
+          cover={cover}
+          albumTitle={albumTitle}
+          getAlbumTracks={getAlbumTracks}
+          albumId={albumId}
+        />
       </div>
     </div>
   );
