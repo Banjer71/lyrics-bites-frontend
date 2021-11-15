@@ -3,11 +3,11 @@ import { Link, useHistory } from "react-router-dom";
 import defImage from "../imageDef.png";
 import Button from "../components/reusable/buttons/button";
 import ButtonSpinner from "../components/reusable/btn-spinner/btn-spinner";
-import "../css/songpage.css";
 import Toast from "./reusable/toast-message/toast";
 import { ToastContext } from "./context/toastMessage";
 import SideBar from "./sidebar/sidebar";
 import { AuthContext } from "../components/context/AuthContext";
+import "../css/songpage.css";
 
 const SongPage = (props) => {
   const auth = useContext(AuthContext);

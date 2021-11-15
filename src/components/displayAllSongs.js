@@ -8,22 +8,16 @@ import { AuthContext } from "./context/AuthContext";
 const DisplayAllSongs = () => {
   const auth = useContext(AuthContext);
   const { authState } = auth;
-  let history = useHistory();
-  let delId = history.location.state;
   const [displayAll, setDisplayAll] = useState();
   const [ids, setIds] = useState([]);
 
   useEffect(() => {
-    if (delId) {
-      setDisplayAll(delId);
-    } else {
-      fetch(`/v.1/api/all/${authState.userInfo.email}`)
-        .then((res) => res.json())
-        .then((data) => {
-          setDisplayAll(data);
-        });
-    }
-  }, [delId]);
+    fetch(`/v.1/api/all/${authState.userInfo.email}`)
+      .then((res) => res.json())
+      .then((data) => {
+        setDisplayAll(data);
+      });
+  }, [authState.userInfo.email]);
 
   const deleteAllSongs = () => {
     fetch(`/v.1/api/all/${authState.userInfo.email}`, {

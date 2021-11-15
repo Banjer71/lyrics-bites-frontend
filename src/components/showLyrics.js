@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { useParams, useHistory, useLocation } from "react-router-dom";
+import { useParams, useHistory } from "react-router-dom";
 import Modal from "./modal";
 
-const ShowLyrics = (props) => {
+const ShowLyrics = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [emailStatus, setEmailStatus] = useState();
   const [lyrics, setLyrics] = useState();
