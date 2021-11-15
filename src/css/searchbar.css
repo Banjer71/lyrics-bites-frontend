@@ -9,7 +9,7 @@
   margin-bottom: 30px;
 }
 
-label {
+.form-u label {
   font-family: "Luckiest Guy", cursive;
 }
 
@@ -40,8 +40,8 @@ select {
 }
 
 @media screen and (min-width: 620px) {
-  select,
-  input {
+  .form-u select,
+  .form-u input {
     max-width: 500px;
   }
 }
@@ -53,9 +53,9 @@ select {
     gap: 10px;
   }
 
-  select,
-  input,
-  button {
+  .form-u select,
+  .form-u input,
+  .form-u button {
     max-width: 500px;
   }
 }

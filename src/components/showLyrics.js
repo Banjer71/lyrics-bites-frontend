@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { useParams, useHistory, useLocation } from "react-router-dom";
+import { useParams, useHistory } from "react-router-dom";
 import Modal from "./modal";
 
-const ShowLyrics = (props) => {
+const ShowLyrics = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [emailStatus, setEmailStatus] = useState();
   const [lyrics, setLyrics] = useState();
@@ -11,10 +11,6 @@ const ShowLyrics = (props) => {
 
   const { _id } = useParams();
   let history = useHistory();
-  // const { search } = useLocation();
-
-  // const searchParams = new URLSearchParams(search);
-  // const name = searchParams.get("title");
 
   useEffect(() => {
     fetch(`/v.1/api/song/${_id}`)
@@ -30,8 +26,6 @@ const ShowLyrics = (props) => {
   }, [_id]);
 
   const deleteSong = () => {
-    // const car = data[3].filter((item) => item._id !== _id);
-
     fetch(`/v.1/api/song/${_id}`, {
       method: "DELETE",
     })

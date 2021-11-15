@@ -1,14 +1,18 @@
 import React, { useState, useEffect, useContext } from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import defImage from "../imageDef.png";
 import Button from "../components/reusable/buttons/button";
 import ButtonSpinner from "../components/reusable/btn-spinner/btn-spinner";
-import "../css/songpage.css";
 import Toast from "./reusable/toast-message/toast";
 import { ToastContext } from "./context/toastMessage";
 import SideBar from "./sidebar/sidebar";
+import { AuthContext } from "../components/context/AuthContext";
+import "../css/songpage.css";
 
 const SongPage = (props) => {
+  const auth = useContext(AuthContext);
+  console.log(auth);
+  let history = useHistory();
   const [lyric, setLyric] = useState("");
   const [copyRight, setCopyright] = useState("null");
   const [artist, setArtist] = useState("");
@@ -131,53 +135,58 @@ const SongPage = (props) => {
 
   const saveSong = async () => {
     setIsLoading(true);
-    const dataToSave = {
-      ...updateState,
-      words: lyric,
-    };
-    await fetch(`/v.1/api/song`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(dataToSave),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data);
-        setTimeout(() => {
-          setIsLoading(false);
-        }, 400);
-        switch (data.type) {
-          case "SUCCESS":
-            return dispatch({
-              type: "ADD_NOTIFICATION",
-              payload: {
-                id: data.id,
-                type: data.type,
-                title: "Success",
-                message: data.message,
-                icon: String.fromCharCode(10004),
-              },
-            });
-          case "EXIST":
-            return dispatch({
-              type: "ADD_NOTIFICATION",
-              payload: {
-                id: data.id,
-                type: data.type,
-                title: "Exist",
-                message: data.message,
-                icon: String.fromCharCode(9940),
-              },
-            });
-          default:
-            return;
-        }
+    if (auth.isAuthenticated()) {
+      const dataToSave = {
+        ...updateState,
+        words: lyric,
+        userEmail: auth.authState.userInfo.email,
+      };
+      await fetch(`/v.1/api/song`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(dataToSave),
       })
-      .catch((error) => {
-        console.error(error);
-      });
+        .then((res) => res.json())
+        .then((data) => {
+          console.log(data._id);
+          setTimeout(() => {
+            setIsLoading(false);
+          }, 400);
+          switch (data.type) {
+            case "SUCCESS":
+              return dispatch({
+                type: "ADD_NOTIFICATION",
+                payload: {
+                  id: data.id,
+                  type: data.type,
+                  title: "Success",
+                  message: data.message,
+                  icon: String.fromCharCode(10004),
+                },
+              });
+            case "EXIST":
+              return dispatch({
+                type: "ADD_NOTIFICATION",
+                payload: {
+                  id: data.id,
+                  type: data.type,
+                  title: "Exist",
+                  message: data.message,
+                  icon: String.fromCharCode(9940),
+                },
+              });
+            default:
+              return;
+          }
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    } else {
+      history.push("/signup");
+    }
   };
 
   return (

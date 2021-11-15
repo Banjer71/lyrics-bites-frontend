@@ -1,8 +1,11 @@
-import React from "react";
+import React, { useContext } from "react";
+import { AuthContext } from "./context/AuthContext";
 import { Link } from "react-router-dom";
 import "../css/navbar.css";
 
 const Navbar = () => {
+  const auth = useContext(AuthContext);
+  const { authState } = auth;
   return (
     <div>
       <ul className="navbar">
@@ -12,8 +15,16 @@ const Navbar = () => {
         <Link to="/DisplayAllSongs">
           <li>My List</li>
         </Link>
-        <li>SignUp</li>
-        <li>Login</li>
+        <Link to={auth.isAuthenticated() ? "/displayAllSongs" : "/signup"}>
+          <li>
+            {authState.userInfo.firstName
+              ? authState.userInfo.firstName
+              : "Signup"}
+          </li>
+        </Link>
+        <Link to={auth.isAuthenticated() ? "/displayAllSongs" : "/login"}>
+          <li>{authState.userInfo.firstName ? "Logout" : "Login"}</li>
+        </Link>
       </ul>
     </div>
   );

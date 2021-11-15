@@ -8,6 +8,6 @@
   padding: 4px;
 }
 
-.navbar li:nth-child(3) {
+.navbar a:nth-child(3) {
   margin-left: auto;
 }
