@@ -11,10 +11,6 @@ const ShowLyrics = (props) => {
 
   const { _id } = useParams();
   let history = useHistory();
-  // const { search } = useLocation();
-
-  // const searchParams = new URLSearchParams(search);
-  // const name = searchParams.get("title");
 
   useEffect(() => {
     fetch(`/v.1/api/song/${_id}`)
@@ -30,8 +26,6 @@ const ShowLyrics = (props) => {
   }, [_id]);
 
   const deleteSong = () => {
-    // const car = data[3].filter((item) => item._id !== _id);
-
     fetch(`/v.1/api/song/${_id}`, {
       method: "DELETE",
     })

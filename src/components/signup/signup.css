@@ -1,0 +1,19 @@
+.signup {
+  padding: 1rem;
+}
+
+.form-logo {
+  width: 8rem;
+  margin: 1rem auto;
+  margin-bottom: 1.5rem;
+}
+
+.signup-input {
+  width: 100%;
+  border: 1px solid;
+}
+
+.label {
+  display: block;
+  border: 1px solid;
+}
