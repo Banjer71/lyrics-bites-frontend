@@ -12,7 +12,7 @@ const DisplayAllSongs = () => {
   const [ids, setIds] = useState([]);
 
   useEffect(() => {
-    fetch(`/dep/v.1/api/all/${authState.userInfo.email}`)
+    fetch(`/v.1/api/all/${authState.userInfo.email}`)
       .then((res) => res.json())
       .then((data) => {
         setDisplayAll(data);
@@ -20,7 +20,7 @@ const DisplayAllSongs = () => {
   }, [authState.userInfo.email]);
 
   const deleteAllSongs = () => {
-    fetch(`/dep/v.1/api/all/${authState.userInfo.email}`, {
+    fetch(`/v.1/api/all/${authState.userInfo.email}`, {
       method: "DELETE",
     }).then((res) => res.json());
     setDisplayAll([]);
@@ -39,7 +39,7 @@ const DisplayAllSongs = () => {
 
   const removeSongsById = () => {
     const remainingSong = displayAll.filter((song) => !ids.includes(song._id));
-    fetch(`/dep/v.1/api/delete/`, {
+    fetch(`/v.1/api/delete/`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
