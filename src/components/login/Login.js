@@ -32,7 +32,10 @@ const Login = () => {
   const submitCredentials = async (credentials) => {
     try {
       setLoginLoading(true);
-      const { data } = await axios.post("/v.1/api/authenticate", credentials);
+      const { data } = await axios.post(
+        "/dep/v.1/api/authenticate",
+        credentials
+      );
       console.log(data);
       authContext.setAuthState(data);
       setLoginSuccess(data.message);

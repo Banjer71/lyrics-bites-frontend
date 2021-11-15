@@ -27,7 +27,7 @@
 
 
 [[redirects]]
-  from = "/v.1/*"
+  from = "/dep/*"
   to = "https://lyrics-bites-dev.herokuapp.com/:splat"
   status = 200
   force = true
