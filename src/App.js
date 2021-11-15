@@ -1,6 +1,6 @@
-import React, { useContext } from "react";
+import React from "react";
 import { Route, Switch } from "react-router-dom";
-import { AuthContext, AuthProvider } from "./components/context/AuthContext";
+import { AuthProvider } from "./components/context/AuthContext";
 import Navbar from "./components/navbar";
 import SearchBar from "./components/searchBar";
 import SongPage from "./components/songPage";

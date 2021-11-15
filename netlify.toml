@@ -26,6 +26,13 @@
     status = 200
 
 
+[[redirects]]
+  from = "/*"
+  to = "https://lyrics-bites-dev.herokuapp.com/:splat"
+  status = 200
+  force = true
+
+
 
   
 

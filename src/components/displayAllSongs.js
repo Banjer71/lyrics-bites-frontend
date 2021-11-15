@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext } from "react";
-import { useHistory, Redirect } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 import CheckBox from "./checkBox";
 import SongLabel from "./songLabel";
 import LabelSong from "./labelSong";
