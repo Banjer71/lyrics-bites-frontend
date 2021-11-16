@@ -1,8 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useParams, useHistory } from "react-router-dom";
 import Modal from "./modal";
+import { AuthContext } from "../components/context/AuthContext";
 
 const ShowLyrics = () => {
+  const auth = useContext(AuthContext);
   const [isOpen, setIsOpen] = useState(false);
   const [emailStatus, setEmailStatus] = useState();
   const [lyrics, setLyrics] = useState();
@@ -41,6 +43,7 @@ const ShowLyrics = () => {
       songTitle,
       lyrics,
       artist,
+      userEmail: auth.authState.userInfo.email,
     };
     try {
       await fetch(`/v.1/api/send_email`, {

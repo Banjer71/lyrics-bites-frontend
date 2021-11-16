@@ -11,6 +11,7 @@ import Label from "../signup/Label";
 import Card from "../signup/Card";
 import Vinyl from "../../assets/vinyl_icon.svg";
 import { AuthContext } from "../context/AuthContext";
+import "./login.css";
 
 const initialValues = {
   email: "",
@@ -62,7 +63,7 @@ const Login = () => {
                 </div>
                 <h2 className="login-title">Log in to your account</h2>
                 <p className="login-text">
-                  Don't have an account? <Link to="signup" text="Sign up now" />
+                  Don't have an account? <Link to="signup">Sign up now</Link>
                 </p>
               </div>
 
